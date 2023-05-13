@@ -1,6 +1,16 @@
+body{
+    background-size: contain;
+    background-repeat: repeat-x;
+    background-attachment: fixed;
+    background-position: center;
+    background-image: url("./sprites/background.png");
+    background-color:bisque;
+}
+
 .sprite {
     background-size: contain;
     background-repeat: no-repeat;
     width: 70px;
     height: auto;
+    position: absolute;
 }
