@@ -1,19 +1,31 @@
 class Actor {
-    constructor(folder, src, id, classes, left, top) {
+    constructor(folder, src, id, classes, left, top, width) {
         this.SPRITES_FOLDER = folder
-        this.img = this.#createImage(this.SPRITES_FOLDER + src, id, classes, left, top)
+        this.img = this.#createImage(this.SPRITES_FOLDER + src, id, classes, left, top, width)
         document.body.appendChild(this.img)
         this.alive = true
     }
 
-    #createImage(src, id, classes, left, top) {
-        let img = document.createElement('img');
-        img.src = src;
-        img.setAttribute('id', id);
+    #createImage(src, id, classes, left, top, width) {
+        let img = document.createElement('img')
+        img.src = src
+        img.setAttribute('id', id)
         img.style.left = left
         img.style.top = top
+        img.style.width = width
         img.classList.add(classes)
+
         return img
+    }
+
+    kill() {
+        console.log('You shoot me')
+    }
+
+    resize(moveArea, width, top) {
+        this.moveArea = moveArea
+        this.img.style.width = width
+        if (top != undefined) this.img.style.top = top
     }
 
     setPosition(x, y) {
@@ -27,9 +39,9 @@ class Actor {
 }
 
 export class Duck extends Actor {
-    constructor(src, speed) {
-        super('./sprites/duck/', src, 'duck', 'sprite', '300px', '300px')
-        this.flyArea = { height: 800, width: 1000 };
+    constructor(src, speed, width, moveArea) {
+        super('./sprites/duck/', src, 'duck', 'sprite', '300px', '300px', width)
+        this.moveArea = moveArea
         this.#fly(speed)
     }
 
@@ -71,7 +83,6 @@ export class Duck extends Actor {
                 requestAnimationFrame(flyStep);
             }
         };
-
         requestAnimationFrame(flyStep);
     }
 
@@ -79,55 +90,50 @@ export class Duck extends Actor {
         const deltaX = aim.x - parseInt(this.img.style.left)
         const deltaY = -(aim.y - parseInt(this.img.style.top))
         const tan = deltaY / deltaX
-        console.log('deltaX', deltaX)
-        console.log('deltaY', deltaY)
-        console.log(tan)
 
-        let sector1 = deltaX > 0 && deltaX != deltaY && tan > 0 && tan <= Math.sqrt(3)
-        let sector2 = (deltaX > 0 && deltaY > 0 && tan < Math.sqrt(3) && tan >= 0) || (deltaX > 0 &&tan < 0 && tan >= -Math.sqrt(3) / 3)
-        // let sector3 = 
-        // let sector4 = 
-        // let sector5 = 
-        // let sector6 = 
+        const sector1 = deltaX >= 0 && deltaY > 0 && tan > Math.sqrt(3)
+        const sector2 = (deltaX > 0 && tan <= Math.sqrt(3) && tan >= 0) || (deltaX > 0 && tan < 0 && tan >= (-Math.sqrt(3) / 3))
+        const sector3 = deltaX >= 0 && tan < (-Math.sqrt(3) / 3)
+        const sector4 = deltaX < 0 && deltaY < 0 && tan > Math.sqrt(3)
+        const sector5 = (deltaX < 0 && tan <= Math.sqrt(3) && tan >= 0) || (deltaX < 0 && tan < 0 && tan >= (-Math.sqrt(3) / 3))
+        const sector6 = deltaX < 0 && tan < (-Math.sqrt(3) / 3)
 
         if (sector1) {
             this.img.src = this.SPRITES_FOLDER + 'duck-right-up.png'
-        } else if (sector2) {
+        }
+        else if (sector2) {
             this.img.src = this.SPRITES_FOLDER + 'duck-right.png'
         }
-        // else if (sector3){
-        //     this.img.src = this.SPRITES_FOLDER + 'duck-right-down.png'
-        // }
-        // else if (sector4){
-        //     this.img.src = this.SPRITES_FOLDER + 'duck-left-down.png'
-        // }
-        // else if (sector5){
-        //     this.img.src = this.SPRITES_FOLDER + 'duck-left.png'
-        // }
-        // else if (sector6){
-        //     this.img.src = this.SPRITES_FOLDER + 'duck-left-up.png'
-        // }
-        else {
+        else if (sector3) {
+            this.img.src = this.SPRITES_FOLDER + 'duck-right-down.png'
+        }
+        else if (sector4) {
+            this.img.src = this.SPRITES_FOLDER + 'duck-left-down.png'
+        }
+        else if (sector5) {
+            this.img.src = this.SPRITES_FOLDER + 'duck-left.png'
+        }
+        else if (sector6) {
             this.img.src = this.SPRITES_FOLDER + 'duck-left-up.png'
         }
-
     }
 
+
     #generateAim() {
-        return { x: super.randomIntFromInterval(0, this.flyArea.width), y: super.randomIntFromInterval(0, this.flyArea.height) };
+        return { x: super.randomIntFromInterval(0, this.moveArea.width), y: super.randomIntFromInterval(0, this.moveArea.height) };
     }
 }
 
 export class Hunter extends Actor {
-    constructor(src, speed) {
-        super('./sprites/hunter/', src, 'hunter', 'sprite', '300px', '700px')
-        this.moveArea = { leftX: 50, rightX: 1000 };
+    constructor(src, speed, left, top, width, moveArea) {
+        super('./sprites/hunter/', src, 'hunter', 'sprite', left, top, width)
+        this.moveArea = moveArea
         this.#move(speed)
     }
 
     #move(speed) {
         let aim = this.#generateAim()
-        // this.#setAnimation()
+        this.#setAnimation()
         let startTime = null;
         let lastTimestamp = null;
 
@@ -139,24 +145,20 @@ export class Hunter extends Actor {
                 lastTimestamp = timestamp;
             }
 
-            if (Math.abs(parseInt(this.img.style.left) - aim.x) <= 5 ) {
+            if (Math.abs(parseInt(this.img.style.left) - aim.x) <= 5) {
                 aim = this.#generateAim()
                 startTime = timestamp;
                 lastTimestamp = timestamp;
-                // this.#setAnimation()
             }
 
-            // const progress = (timestamp - startTime) / 1000;
             const deltaT = (timestamp - lastTimestamp) / 1000;
             const deltaX = (aim.x - parseInt(this.img.style.left)) / speed;
-            // console.log('deltaX', deltaX)
 
             const newPos = {
                 x: parseInt(this.img.style.left) + deltaX * deltaT
             };
-            // console.log('this pos', this.img.style.left)
-            // console.log('new pos', newPos.x)
             super.setPosition(newPos.x);
+            this.#setAnimation()
 
             if (this.alive) {
                 requestAnimationFrame(moveStep);
@@ -165,6 +167,15 @@ export class Hunter extends Actor {
 
         requestAnimationFrame(moveStep);
     }
+
+    #setAnimation() {
+        if (parseInt(this.img.style.left) < (window.innerWidth - this.img.width) / 2) {
+            this.img.src = this.SPRITES_FOLDER + 'hunter-right.png'
+        } else {
+            this.img.src = this.SPRITES_FOLDER + 'hunter-left.png'
+        }
+    }
+
 
     #generateAim() {
         return { x: super.randomIntFromInterval(this.moveArea.leftX, this.moveArea.rightX) };
