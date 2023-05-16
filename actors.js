@@ -18,10 +18,6 @@ class Actor {
         return img
     }
 
-    kill() {
-        console.log('You shoot me')
-    }
-
     resize(moveArea, width, top) {
         this.moveArea = moveArea
         this.img.style.width = width

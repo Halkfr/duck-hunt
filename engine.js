@@ -16,10 +16,6 @@ let props = countProps()
 const duck = new Duck('duck-left-up.png', 10, props.duck.width, props.duck.moveArea)
 const hunter = new Hunter('hunter-right.png', 15, '300px', props.hunter.top, props.hunter.width, props.hunter.moveArea)
 
-// duck.watch('alive', function() {
-//     console.log('duck killed')
-// })
-
 onresize = () => {
     console.log('resize')
     props = countProps()

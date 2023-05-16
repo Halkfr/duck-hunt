@@ -21,7 +21,7 @@ body {
     background-color: #996600;
 }
 
-#background{
+#background {
     z-index: 1;
     position: absolute;
     width: 100%;
