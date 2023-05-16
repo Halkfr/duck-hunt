@@ -1,13 +1,13 @@
 hunter:
     appear
-    move
+    + move
     shoot
     hide
     distracted
 
 birds:
     fly in
-    fly
+    + fly
     fly away
     dissapear
 
@@ -15,3 +15,7 @@ Creature:
     happy
     sad
     game over score
+
+
+
+add async to functions?

@@ -33,6 +33,15 @@ body {
     background-image: url("./sprites/background.png");
 }
 
+.sprite {
+    z-index: 2;
+    background-size: contain;
+    background-repeat: no-repeat;
+    /* width: 70px; */
+    height: auto;
+    position: absolute;
+}
+
 #grass {
     z-index: 3;
     position: absolute;
@@ -45,11 +54,10 @@ body {
     background-image: url("./sprites/grass.png");
 }
 
-.sprite {
-    z-index: 2;
-    background-size: contain;
-    background-repeat: no-repeat;
-    /* width: 70px; */
-    height: auto;
+.hitbox {
+    z-index: 4;
     position: absolute;
+    background-color: rgb(228, 129, 129);
+    opacity: 0.7;
+    border-radius: 50%;
 }

@@ -1,13 +1,21 @@
 class Actor {
-    constructor(folder, src, id, classes, left, top, width) {
+    constructor(folder, src, id, classes, left, top, width, hitbox) {
         this.SPRITES_FOLDER = folder
         this.img = this.#createImage(this.SPRITES_FOLDER + src, id, classes, left, top, width)
         document.body.appendChild(this.img)
+        this.hitBox = this.#createHitBox(hitbox)
+        document.body.appendChild(this.hitBox.element)
+        // this.resizeHitBox()
         this.alive = true
+
+        this.hitBox.element.addEventListener('click', (event) => {
+            event.preventDefault()
+            this.kill()
+        })
     }
 
     #createImage(src, id, classes, left, top, width) {
-        let img = document.createElement('img')
+        const img = document.createElement('img')
         img.src = src
         img.setAttribute('id', id)
         img.style.left = left
@@ -18,17 +26,40 @@ class Actor {
         return img
     }
 
+    #createHitBox(props) {
+        const hitBox = document.createElement('span')
+        hitBox.setAttribute('id', props.id)
+        hitBox.style.width = this.img.width * props.k + 'px'
+        hitBox.style.height = this.img.height * props.k + 'px'
+        hitBox.style.left = parseInt(this.img.style.left) + this.img.width / 2 - parseInt(hitBox.style.width) / 2 + 'px'
+        hitBox.style.top = parseInt(this.img.style.top) + this.img.height / 2 - parseInt(hitBox.style.height) / 2 + 'px'
+        hitBox.classList.add(props.classes)
+
+        return { element: hitBox, k: props.k }
+    }
+
     resize(moveArea, width, top) {
         this.moveArea = moveArea
         this.img.style.width = width
         if (top != undefined) this.img.style.top = top
+        this.moveAndResizeHitBox()
+    }
+
+    moveAndResizeHitBox() {
+        this.hitBox.element.style.width = this.img.width * this.hitBox.k + 'px'
+        this.hitBox.element.style.height = this.img.height * this.hitBox.k + 'px'
+        this.hitBox.element.style.left = parseInt(this.img.style.left) + this.img.width / 2 - parseInt(this.hitBox.element.style.width) / 2 + 'px'
+        this.hitBox.element.style.top = parseInt(this.img.style.top) + this.img.height / 2 - parseInt(this.hitBox.element.style.height) / 2 + 'px'
     }
 
     setPosition(x, y) {
         this.img.style.left = Math.round(x) + 'px';
-        if (y != undefined) this.img.style.top = Math.round(y) + 'px';
+        if (y != undefined) {
+            this.img.style.top = Math.round(y) + 'px';
+        }
+        this.moveAndResizeHitBox()
     }
-
+    
     randomIntFromInterval(min, max) { // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min)
     }
@@ -36,9 +67,10 @@ class Actor {
 
 export class Duck extends Actor {
     constructor(src, speed, width, moveArea) {
-        super('./sprites/duck/', src, 'duck', 'sprite', '300px', '300px', width)
+        super('./sprites/duck/', src, 'duck', 'sprite', '300px', '300px', width, { id: 'duck-hitbox', classes: 'hitbox', k: 1.2 })
         this.moveArea = moveArea
         this.#fly(speed)
+        this.animationFrameId = null
     }
 
     #fly(speed) {
@@ -46,8 +78,13 @@ export class Duck extends Actor {
         this.#setAnimation(aim) // look at the direction first time
         let startTime = null;
         let lastTimestamp = null;
+        let animationFrameId = null
 
         const flyStep = (timestamp) => {
+            if(!this.alive) {
+                cancelAnimationFrame(animationFrameId)
+                return
+            }
             if (!startTime) {
                 startTime = timestamp;
             }
@@ -75,11 +112,9 @@ export class Duck extends Actor {
             };
             super.setPosition(newPos.x, newPos.y);
 
-            if (this.alive) {
-                requestAnimationFrame(flyStep);
-            }
+            animationFrameId = requestAnimationFrame(flyStep)
         };
-        requestAnimationFrame(flyStep);
+        animationFrameId = requestAnimationFrame(flyStep);
     }
 
     #setAnimation(aim) {
@@ -95,25 +130,31 @@ export class Duck extends Actor {
         const sector6 = deltaX < 0 && tan < (-Math.sqrt(3) / 3)
 
         if (sector1) {
-            this.img.src = this.SPRITES_FOLDER + 'duck-right-up.png'
+            this.img.src = this.SPRITES_FOLDER + 'duck-right-up.gif'
         }
         else if (sector2) {
-            this.img.src = this.SPRITES_FOLDER + 'duck-right.png'
+            this.img.src = this.SPRITES_FOLDER + 'duck-right.gif'
         }
         else if (sector3) {
-            this.img.src = this.SPRITES_FOLDER + 'duck-right-down.png'
+            this.img.src = this.SPRITES_FOLDER + 'duck-right-up.gif' // right-down
         }
         else if (sector4) {
-            this.img.src = this.SPRITES_FOLDER + 'duck-left-down.png'
+            this.img.src = this.SPRITES_FOLDER + 'duck-left-up.gif' // left down
         }
         else if (sector5) {
-            this.img.src = this.SPRITES_FOLDER + 'duck-left.png'
+            this.img.src = this.SPRITES_FOLDER + 'duck-left.gif'
         }
         else if (sector6) {
-            this.img.src = this.SPRITES_FOLDER + 'duck-left-up.png'
+            this.img.src = this.SPRITES_FOLDER + 'duck-left-up.gif'
         }
+        // console.log('resize duck hit box')
+        super.moveAndResizeHitBox()
     }
 
+    kill = () => {
+        this.alive = false
+        console.log('duck killed')
+    }
 
     #generateAim() {
         return { x: super.randomIntFromInterval(0, this.moveArea.width), y: super.randomIntFromInterval(0, this.moveArea.height) };
@@ -122,7 +163,7 @@ export class Duck extends Actor {
 
 export class Hunter extends Actor {
     constructor(src, speed, left, top, width, moveArea) {
-        super('./sprites/hunter/', src, 'hunter', 'sprite', left, top, width)
+        super('./sprites/hunter/', src, 'hunter', 'sprite', left, top, width, { id: 'hunter-hitbox', classes: 'hitbox', k: 1 })
         this.moveArea = moveArea
         this.#move(speed)
     }
@@ -132,8 +173,13 @@ export class Hunter extends Actor {
         this.#setAnimation()
         let startTime = null;
         let lastTimestamp = null;
+        let animationFrameId = null
 
         const moveStep = (timestamp) => {
+            if(!this.alive) {
+                cancelAnimationFrame(animationFrameId)
+                return
+            }
             if (!startTime) {
                 startTime = timestamp;
             }
@@ -156,12 +202,10 @@ export class Hunter extends Actor {
             super.setPosition(newPos.x);
             this.#setAnimation()
 
-            if (this.alive) {
-                requestAnimationFrame(moveStep);
-            }
+                animationFrameId = requestAnimationFrame(moveStep);
         };
 
-        requestAnimationFrame(moveStep);
+        animationFrameId = requestAnimationFrame(moveStep);
     }
 
     #setAnimation() {
@@ -170,8 +214,14 @@ export class Hunter extends Actor {
         } else {
             this.img.src = this.SPRITES_FOLDER + 'hunter-left.png'
         }
+        super.moveAndResizeHitBox()
     }
 
+    kill = () => {
+        this.alive = false
+        console.log('hunter scared')
+        cancelAnimationFrame(this.animationFrameId)
+    }
 
     #generateAim() {
         return { x: super.randomIntFromInterval(this.moveArea.leftX, this.moveArea.rightX) };
