@@ -59,7 +59,7 @@ class Actor {
         }
         this.moveAndResizeHitBox()
     }
-    
+
     randomIntFromInterval(min, max) { // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min)
     }
@@ -76,25 +76,20 @@ export class Duck extends Actor {
     #fly(speed) {
         let aim = this.#generateAim()
         this.#setAnimation(aim) // look at the direction first time
-        let startTime = null;
         let lastTimestamp = null;
         let animationFrameId = null
 
         const flyStep = (timestamp) => {
-            if(!this.alive) {
+            if (!this.alive) {
                 cancelAnimationFrame(animationFrameId)
                 return
-            }
-            if (!startTime) {
-                startTime = timestamp;
             }
             if (!lastTimestamp) {
                 lastTimestamp = timestamp;
             }
-
+            // console.log(timestamp - lastTimestamp)
             if (Math.abs(parseInt(this.img.style.left) - aim.x) <= 5 && Math.abs(parseInt(this.img.style.top) - aim.y) <= 5) {
                 aim = this.#generateAim()
-                startTime = timestamp;
                 lastTimestamp = timestamp;
                 this.#setAnimation(aim)
             }
@@ -171,17 +166,13 @@ export class Hunter extends Actor {
     #move(speed) {
         let aim = this.#generateAim()
         this.#setAnimation()
-        let startTime = null;
         let lastTimestamp = null;
         let animationFrameId = null
 
         const moveStep = (timestamp) => {
-            if(!this.alive) {
+            if (!this.alive) {
                 cancelAnimationFrame(animationFrameId)
                 return
-            }
-            if (!startTime) {
-                startTime = timestamp;
             }
             if (!lastTimestamp) {
                 lastTimestamp = timestamp;
@@ -189,7 +180,6 @@ export class Hunter extends Actor {
 
             if (Math.abs(parseInt(this.img.style.left) - aim.x) <= 5) {
                 aim = this.#generateAim()
-                startTime = timestamp;
                 lastTimestamp = timestamp;
             }
 
@@ -202,7 +192,7 @@ export class Hunter extends Actor {
             super.setPosition(newPos.x);
             this.#setAnimation()
 
-                animationFrameId = requestAnimationFrame(moveStep);
+            animationFrameId = requestAnimationFrame(moveStep);
         };
 
         animationFrameId = requestAnimationFrame(moveStep);
