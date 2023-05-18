@@ -1,3 +1,5 @@
+import { actors } from "./engine.js"
+
 const overlay = document.body.querySelector('#overlay')
 const menu = document.body.querySelector('#menu')
 const continueButton = menu.querySelector('#continue-button')
@@ -16,24 +18,47 @@ let startTime = Date.now() - elapsedTime
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         if (menu.classList.contains('hidden')) {
-            openMenu()
-            pauseTimer()
+            pauseGame()
         }
         else {
-            closeMenu()
-            continueTimer()
+            continueGame()
         }
     }
 })
 
-continueButton.addEventListener('click', () => {
+function continueGame() {
     closeMenu()
     continueTimer()
+    continueActors()
+}
+
+function pauseGame() {
+    openMenu()
+    pauseTimer()
+    pauseActors()
+}
+
+function pauseActors() {
+    actors.forEach(actor => {
+        actor.pause()
+    });
+}
+
+function continueActors() {
+    actors.forEach(actor => {
+        actor.continue()
+    });
+}
+
+continueButton.addEventListener('click', () => {
+    continueGame()
 })
 
+// start new game
 restartButton.addEventListener('click', () => {
     closeMenu()
     resetTimer()
+    // TODO: actors
 })
 
 function closeMenu() {

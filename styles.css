@@ -1,8 +1,19 @@
+@font-face {
+    font-family: 'press_start_2pregular';
+    src: url('./fonts/pressstart2p-regular-webfont.woff2') format('woff2'),
+         url('./fonts/pressstart2p-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 body {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     overflow: hidden;
+    font-family: 'press_start_2pregular';
+    user-select: none;
 }
 
 #bg-top {
@@ -59,7 +70,7 @@ body {
     z-index: 4;
     position: absolute;
     background-color: rgb(228, 129, 129);
-    opacity: 0.7;
+    opacity: 0;
     border-radius: 50%;
 }
 
@@ -81,8 +92,8 @@ body {
 
 #timer {
     top: 40px;
-    left: calc(100% - 140px);
-    width: 90px;
+    left: calc(100% - 160px);
+    width: 110px;
     height: 45px;
 }
 
@@ -126,6 +137,7 @@ body {
     border: 5px;
     border-style: solid;
     border-color: rgb(58, 56, 53);
+    font-family: 'press_start_2pregular';
     font-weight: bold;
     font-size: xx-large;
     color: rgb(58, 56, 53);
@@ -140,7 +152,6 @@ body {
     /* border-color: rgb(58, 56, 53); */
 }
 
-
 .hidden {
     display: none;
 }
@@ -152,8 +163,8 @@ body {
         height: 40%;
     }
     .modal-button {
-        font-size: large;
-        width: 100px;
+        font-size: smaller;
+        width: 135px;
         height: 50px;
     }
     .modal-button:hover {
@@ -169,7 +180,7 @@ body {
     }
     .modal-button {
         font-size: large;
-        width: 120px;
+        width: 180px;
         height: 60px;
     }
     .modal-button:hover {
@@ -180,9 +191,9 @@ body {
 /*iPads, Tablets*/
 @media (min-width:481px) and (max-width: 768px) {
     .modal-button {
-        font-size: x-large;
-        width: 150px;
-        height: 70px;
+        font-size: large;
+        width: 200px;
+        height: 90px;
     }
     .modal-button:hover {
         transform: scale(1.3);
@@ -192,15 +203,17 @@ body {
 /*small screens, laptops*/
 @media (min-width: 769px) and (max-width: 1024px) {
     .modal-button {
-        font-size: x-large;
+        font-size: large;
+        width: 23vw;
+        height: 15vh;
     }
 }
 
 /*desctops, large screens*/
 @media (min-width: 1025px) and (max-width: 1200px) {
     .modal-button {
-        font-size: x-large;
-        width: 18vw;
+        font-size: large;
+        width: 20vw;
         height: 15vh;
     }
 }
@@ -212,8 +225,8 @@ body {
         height: 50%;
     }
     .modal-button {
-        font-size: xx-large;
-        width: 15vw;
+        font-size: x-large;
+        width: 18vw;
         height: 15vh;
     }
 }

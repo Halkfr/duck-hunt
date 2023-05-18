@@ -7,11 +7,20 @@ class Actor {
         document.body.appendChild(this.hitBox.element)
         // this.resizeHitBox()
         this.alive = true
+        this.paused = false
 
         this.hitBox.element.addEventListener('click', (event) => {
             event.preventDefault()
             this.kill()
         })
+    }
+
+    pause() {
+        this.paused = true
+    }
+
+    continue() {
+        this.paused = false
     }
 
     #createImage(src, id, classes, left, top, width) {
@@ -66,8 +75,8 @@ class Actor {
 }
 
 export class Duck extends Actor {
-    constructor(src, speed, width, moveArea) {
-        super('./sprites/duck/', src, 'duck', 'sprite', '300px', '300px', width, { id: 'duck-hitbox', classes: 'hitbox', k: 1.2 })
+    constructor(src, speed, left, top, width, moveArea) {
+        super('./sprites/duck/', src, 'duck', 'sprite', left, top, width, { id: 'duck-hitbox', classes: 'hitbox', k: 1.2 })
         this.moveArea = moveArea
         this.#fly(speed)
         this.animationFrameId = null
@@ -87,25 +96,30 @@ export class Duck extends Actor {
             if (!lastTimestamp) {
                 lastTimestamp = timestamp;
             }
-            // console.log(timestamp - lastTimestamp)
-            if (Math.abs(parseInt(this.img.style.left) - aim.x) <= 5 && Math.abs(parseInt(this.img.style.top) - aim.y) <= 5) {
-                aim = this.#generateAim()
+
+            if (!this.paused) {
+                // console.log(timestamp - lastTimestamp)
+                if (Math.abs(parseInt(this.img.style.left) - aim.x) <= 10 && Math.abs(parseInt(this.img.style.top) - aim.y) <= 10) {
+                    aim = this.#generateAim()
+                    lastTimestamp = timestamp;
+                    this.#setAnimation(aim)
+                }
+                // console.log(this.img.style.left, aim.x)
+                // console.log(this.img.style.top, aim.y)
+
+                // const progress = (timestamp - startTime) / 1000;
+                const deltaT = (timestamp - lastTimestamp) / 1000;
+                const deltaX = (aim.x - parseInt(this.img.style.left)) / speed;
+                const deltaY = (aim.y - parseInt(this.img.style.top)) / speed;
+
+                const newPos = {
+                    x: parseInt(this.img.style.left) + deltaX * deltaT,
+                    y: parseInt(this.img.style.top) + deltaY * deltaT
+                };
+                super.setPosition(newPos.x, newPos.y);
+            } else {
                 lastTimestamp = timestamp;
-                this.#setAnimation(aim)
             }
-            // console.log(this.img.style.left, aim.x)
-            // console.log(this.img.style.top, aim.y)
-
-            // const progress = (timestamp - startTime) / 1000;
-            const deltaT = (timestamp - lastTimestamp) / 1000;
-            const deltaX = (aim.x - parseInt(this.img.style.left)) / speed;
-            const deltaY = (aim.y - parseInt(this.img.style.top)) / speed;
-
-            const newPos = {
-                x: parseInt(this.img.style.left) + deltaX * deltaT,
-                y: parseInt(this.img.style.top) + deltaY * deltaT
-            };
-            super.setPosition(newPos.x, newPos.y);
 
             animationFrameId = requestAnimationFrame(flyStep)
         };
@@ -177,20 +191,23 @@ export class Hunter extends Actor {
             if (!lastTimestamp) {
                 lastTimestamp = timestamp;
             }
+            if (!this.paused) {
+                if (Math.abs(parseInt(this.img.style.left) - aim.x) <= 5) {
+                    aim = this.#generateAim()
+                    lastTimestamp = timestamp;
+                }
 
-            if (Math.abs(parseInt(this.img.style.left) - aim.x) <= 5) {
-                aim = this.#generateAim()
+                const deltaT = (timestamp - lastTimestamp) / 1000;
+                const deltaX = (aim.x - parseInt(this.img.style.left)) / speed;
+
+                const newPos = {
+                    x: parseInt(this.img.style.left) + deltaX * deltaT
+                };
+                super.setPosition(newPos.x);
+                this.#setAnimation()
+            } else {
                 lastTimestamp = timestamp;
             }
-
-            const deltaT = (timestamp - lastTimestamp) / 1000;
-            const deltaX = (aim.x - parseInt(this.img.style.left)) / speed;
-
-            const newPos = {
-                x: parseInt(this.img.style.left) + deltaX * deltaT
-            };
-            super.setPosition(newPos.x);
-            this.#setAnimation()
 
             animationFrameId = requestAnimationFrame(moveStep);
         };
