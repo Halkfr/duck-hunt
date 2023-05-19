@@ -76,7 +76,7 @@ class Actor {
 
 export class Duck extends Actor {
     constructor(src, speed, left, top, width, moveArea) {
-        super('./sprites/duck/', src, 'duck', 'sprite', left, top, width, { id: 'duck-hitbox', classes: 'hitbox', k: 1.2 })
+        super('./sprites/duck/', src, 'duck', 'sprite', left, top, width, { id: 'duck-hitbox', classes: 'hitbox', k: 1.4 })
         this.moveArea = moveArea
         this.#fly(speed)
         this.animationFrameId = null
@@ -85,42 +85,31 @@ export class Duck extends Actor {
     #fly(speed) {
         let aim = this.#generateAim()
         this.#setAnimation(aim) // look at the direction first time
-        let lastTimestamp = null;
         let animationFrameId = null
 
-        const flyStep = (timestamp) => {
+        const flyStep = () => {
             if (!this.alive) {
                 cancelAnimationFrame(animationFrameId)
                 return
             }
-            if (!lastTimestamp) {
-                lastTimestamp = timestamp;
-            }
 
             if (!this.paused) {
-                // console.log(timestamp - lastTimestamp)
                 if (Math.abs(parseInt(this.img.style.left) - aim.x) <= 10 && Math.abs(parseInt(this.img.style.top) - aim.y) <= 10) {
                     aim = this.#generateAim()
-                    lastTimestamp = timestamp;
                     this.#setAnimation(aim)
                 }
-                // console.log(this.img.style.left, aim.x)
-                // console.log(this.img.style.top, aim.y)
-
-                // const progress = (timestamp - startTime) / 1000;
-                const deltaT = (timestamp - lastTimestamp) / 1000;
-                const deltaX = (aim.x - parseInt(this.img.style.left)) / speed;
-                const deltaY = (aim.y - parseInt(this.img.style.top)) / speed;
+                let distanceX = aim.x - parseInt(this.img.style.left)
+                let distanceY = aim.y - parseInt(this.img.style.top)
+                var magnitude = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+                const deltaX = distanceX * speed / magnitude
+                const deltaY = distanceY * speed / magnitude
 
                 const newPos = {
-                    x: parseInt(this.img.style.left) + deltaX * deltaT,
-                    y: parseInt(this.img.style.top) + deltaY * deltaT
+                    x: parseInt(this.img.style.left) + deltaX,
+                    y: parseInt(this.img.style.top) + deltaY
                 };
                 super.setPosition(newPos.x, newPos.y);
-            } else {
-                lastTimestamp = timestamp;
             }
-
             animationFrameId = requestAnimationFrame(flyStep)
         };
         animationFrameId = requestAnimationFrame(flyStep);

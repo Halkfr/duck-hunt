@@ -14,6 +14,11 @@ let intervalId = setInterval(updateTime, 1000)
 
 let startTime = Date.now() - elapsedTime
 
+//window lost focus
+window.addEventListener('blur', function() {
+    pauseGame()
+});
+
 // menu open/close
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {

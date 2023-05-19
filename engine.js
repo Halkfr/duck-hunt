@@ -15,9 +15,9 @@ const countProps = () => {
     return { duck: { top: duckTop, left: duckLeft, width: duckWidth, moveArea: duckMoveArea }, hunter: { top: hunterTop, left: hunterLeft, width: hunterWidth, moveArea: hunterMoveArea } }
 }
 
-const props = countProps()
+let props = countProps()
 console.log(props.duck.top)
-const duck = new Duck('duck-left-up.gif', 10, props.duck.left, props.duck.top, props.duck.width, props.duck.moveArea)
+const duck = new Duck('duck-left-up.gif', 7, props.duck.left, props.duck.top, props.duck.width, props.duck.moveArea)
 const hunter = new Hunter('hunter-right.png', 15, props.hunter.left, props.hunter.top, props.hunter.width, props.hunter.moveArea)
 
 export let actors = [duck, hunter]

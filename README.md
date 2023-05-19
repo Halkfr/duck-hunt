@@ -19,3 +19,5 @@ Creature:
 
 
 add async to functions?
+
+TODO: Change speed of the duck according to screen size (PC/mobile)
