@@ -141,6 +141,7 @@ body {
     font-weight: bold;
     font-size: xx-large;
     color: rgb(58, 56, 53);
+    transition: transform 300ms;
 }
 
 .modal-button:hover {

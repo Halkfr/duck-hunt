@@ -145,7 +145,6 @@ export class Duck extends Actor {
         else if (sector6) {
             this.img.src = this.SPRITES_FOLDER + 'duck-left-up.gif'
         }
-        // console.log('resize duck hit box')
         super.moveAndResizeHitBox()
     }
 
