@@ -7,9 +7,10 @@ class Actor {
         document.body.appendChild(this.hitBox.element)
         // this.resizeHitBox()
         this.alive = true
+        this.isFalling = false
         this.paused = false
 
-        this.hitBox.element.addEventListener('click', (event) => {
+        this.hitBox.element.addEventListener('mousedown', (event) => {
             event.preventDefault()
             this.kill()
         })
@@ -69,17 +70,27 @@ class Actor {
         this.moveAndResizeHitBox()
     }
 
+    removeImage() {
+        document.body.removeChild(this.img)
+        document.body.removeChild(this.hitBox.element)
+    }
+
     randomIntFromInterval(min, max) { // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min)
+    }
+
+    getRelativeFilepath(path) {
+        return path.replace(/\w+:\/\/[\d|\.|:]+/g, '.')
     }
 }
 
 export class Duck extends Actor {
     constructor(src, speed, left, top, width, moveArea) {
-        super('./sprites/duck/', src, 'duck', 'sprite', left, top, width, { id: 'duck-hitbox', classes: 'hitbox', k: 1.4 })
+        super('./sprites/duck/', src, 'duck', 'sprite', left, top, width, { id: 'duck-hitbox', classes: 'hitbox', k: 1.6 })
         this.moveArea = moveArea
         this.#fly(speed)
         this.animationFrameId = null
+        this.duckHiddenPositionTop = top
     }
 
     #fly(speed) {
@@ -89,12 +100,26 @@ export class Duck extends Actor {
 
         const flyStep = () => {
             if (!this.alive) {
-                cancelAnimationFrame(animationFrameId)
-                return
+                if (!this.isFalling) {
+                    this.#setAnimation('hit')
+                    this.pause()
+                    aim = { x: parseInt(this.img.style.left), y: parseInt(this.duckHiddenPositionTop) }
+                    setTimeout(() => {
+                        this.continue()
+                        this.#setAnimation('down')
+                    }, 500)
+                    this.isFalling = true
+                }
             }
 
             if (!this.paused) {
-                if (Math.abs(parseInt(this.img.style.left) - aim.x) <= 10 && Math.abs(parseInt(this.img.style.top) - aim.y) <= 10) {
+                if (Math.abs(parseInt(this.img.style.left) - aim.x) <= 5 && Math.abs(parseInt(this.img.style.top) - aim.y) <= 5) {
+                    if (this.isFalling) {
+                        this.isFalling = false
+                        cancelAnimationFrame(animationFrameId)
+                        super.removeImage()
+                        return
+                    }
                     aim = this.#generateAim()
                     this.#setAnimation(aim)
                 }
@@ -116,35 +141,43 @@ export class Duck extends Actor {
     }
 
     #setAnimation(aim) {
-        const deltaX = aim.x - parseInt(this.img.style.left)
-        const deltaY = -(aim.y - parseInt(this.img.style.top))
-        const tan = deltaY / deltaX
+        let filename = null
+        if (aim == 'hit') {
+            filename = 'duck-hit.png'
+        } else if (aim == 'down') {
+            filename = 'duck-down.gif'
+        } else {
+            const deltaX = aim.x - parseInt(this.img.style.left)
+            const deltaY = -(aim.y - parseInt(this.img.style.top))
+            const tan = deltaY / deltaX
 
-        const sector1 = deltaX >= 0 && deltaY > 0 && tan > Math.sqrt(3)
-        const sector2 = (deltaX > 0 && tan <= Math.sqrt(3) && tan >= 0) || (deltaX > 0 && tan < 0 && tan >= (-Math.sqrt(3) / 3))
-        const sector3 = deltaX >= 0 && tan < (-Math.sqrt(3) / 3)
-        const sector4 = deltaX < 0 && deltaY < 0 && tan > Math.sqrt(3)
-        const sector5 = (deltaX < 0 && tan <= Math.sqrt(3) && tan >= 0) || (deltaX < 0 && tan < 0 && tan >= (-Math.sqrt(3) / 3))
-        const sector6 = deltaX < 0 && tan < (-Math.sqrt(3) / 3)
+            const sector1 = deltaX >= 0 && deltaY > 0 && tan > Math.sqrt(3)
+            const sector2 = (deltaX > 0 && tan <= Math.sqrt(3) && tan >= 0) || (deltaX > 0 && tan < 0 && tan >= (-Math.sqrt(3) / 3))
+            const sector3 = deltaX >= 0 && tan < (-Math.sqrt(3) / 3)
+            const sector4 = deltaX < 0 && deltaY < 0 && tan > Math.sqrt(3)
+            const sector5 = (deltaX < 0 && tan <= Math.sqrt(3) && tan >= 0) || (deltaX < 0 && tan < 0 && tan >= (-Math.sqrt(3) / 3))
+            const sector6 = deltaX < 0 && tan < (-Math.sqrt(3) / 3)
 
-        if (sector1) {
-            this.img.src = this.SPRITES_FOLDER + 'duck-right-up.gif'
+            if (sector1) {
+                filename = 'duck-right-up.gif'
+            }
+            else if (sector2) {
+                filename = 'duck-right.gif'
+            }
+            else if (sector3) {
+                filename = 'duck-right-up.gif' // right-down
+            }
+            else if (sector4) {
+                filename = 'duck-left-up.gif' // left down
+            }
+            else if (sector5) {
+                filename = 'duck-left.gif'
+            }
+            else if (sector6) {
+                filename = 'duck-left-up.gif'
+            }
         }
-        else if (sector2) {
-            this.img.src = this.SPRITES_FOLDER + 'duck-right.gif'
-        }
-        else if (sector3) {
-            this.img.src = this.SPRITES_FOLDER + 'duck-right-up.gif' // right-down
-        }
-        else if (sector4) {
-            this.img.src = this.SPRITES_FOLDER + 'duck-left-up.gif' // left down
-        }
-        else if (sector5) {
-            this.img.src = this.SPRITES_FOLDER + 'duck-left.gif'
-        }
-        else if (sector6) {
-            this.img.src = this.SPRITES_FOLDER + 'duck-left-up.gif'
-        }
+        if (super.getRelativeFilepath(this.img.src) != this.SPRITES_FOLDER + filename) this.img.src = this.SPRITES_FOLDER + filename
         super.moveAndResizeHitBox()
     }
 
@@ -204,10 +237,16 @@ export class Hunter extends Actor {
     }
 
     #setAnimation() {
+        let filename = null
         if (parseInt(this.img.style.left) < (window.innerWidth - this.img.width) / 2) {
-            this.img.src = this.SPRITES_FOLDER + 'hunter-right.png'
+            filename = 'hunter-right.png'
         } else {
-            this.img.src = this.SPRITES_FOLDER + 'hunter-left.png'
+            filename = 'hunter-left.png'
+        }
+        if (super.getRelativeFilepath(this.img.src) != this.SPRITES_FOLDER + filename) {
+            console.log('change image')
+            console.log(super.getRelativeFilepath(this.img.src), this.SPRITES_FOLDER + filename)
+            this.img.src = this.SPRITES_FOLDER + filename
         }
         super.moveAndResizeHitBox()
     }
