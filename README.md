@@ -21,6 +21,7 @@ Creature:
 add async to functions?
 
 TODO: 
-1. Change speed of the duck according to screen size (PC/mobile)
+1. Change speed of the duck according to screen size (PC/mobile)? Make hitbox bigger?
 2. Improve Duck generateAim function
-3. Fix timer bug
+3. Preload images?
+4. fix duck fly away timer to it be not active when paused

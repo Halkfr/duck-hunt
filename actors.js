@@ -28,10 +28,10 @@ class Actor {
         const img = document.createElement('img')
         img.src = src
         img.setAttribute('id', id)
+        img.classList.add(classes)
         img.style.left = left
         img.style.top = top
         img.style.width = width
-        img.classList.add(classes)
 
         return img
     }
@@ -97,16 +97,22 @@ export class Duck extends Actor {
         let aim = this.#generateAim()
         this.#setAnimation(aim) // look at the direction first time
         let animationFrameId = null
+        let escape = false
+
+        setTimeout(() => {
+           flyAway()
+        }, 10000)
 
         const flyStep = () => {
             if (!this.alive) {
                 if (!this.isFalling) {
-                    this.#setAnimation('hit')
+                    this.#setAnimation(aim, 'duck-hit.png')
                     this.pause()
                     aim = { x: parseInt(this.img.style.left), y: parseInt(this.duckHiddenPositionTop) }
+                    // timeout for hit image
                     setTimeout(() => {
                         this.continue()
-                        this.#setAnimation('down')
+                        this.#setAnimation(aim, 'duck-down.gif')
                     }, 500)
                     this.isFalling = true
                 }
@@ -114,7 +120,7 @@ export class Duck extends Actor {
 
             if (!this.paused) {
                 if (Math.abs(parseInt(this.img.style.left) - aim.x) <= 5 && Math.abs(parseInt(this.img.style.top) - aim.y) <= 5) {
-                    if (this.isFalling) {
+                    if (this.isFalling || escape) {
                         this.isFalling = false
                         cancelAnimationFrame(animationFrameId)
                         super.removeImage()
@@ -138,15 +144,16 @@ export class Duck extends Actor {
             animationFrameId = requestAnimationFrame(flyStep)
         };
         animationFrameId = requestAnimationFrame(flyStep);
+
+        const flyAway = () =>  {
+            this.#setAnimation(aim, 'duck-fly-away.gif')
+            aim = { x: parseInt(this.img.style.left), y: 0 - 2*parseInt(this.img.height) }
+            escape = true
+        }
     }
 
-    #setAnimation(aim) {
-        let filename = null
-        if (aim == 'hit') {
-            filename = 'duck-hit.png'
-        } else if (aim == 'down') {
-            filename = 'duck-down.gif'
-        } else {
+    #setAnimation(aim, filename) {
+        if (filename == undefined){
             const deltaX = aim.x - parseInt(this.img.style.left)
             const deltaY = -(aim.y - parseInt(this.img.style.top))
             const tan = deltaY / deltaX
@@ -244,8 +251,6 @@ export class Hunter extends Actor {
             filename = 'hunter-left.png'
         }
         if (super.getRelativeFilepath(this.img.src) != this.SPRITES_FOLDER + filename) {
-            console.log('change image')
-            console.log(super.getRelativeFilepath(this.img.src), this.SPRITES_FOLDER + filename)
             this.img.src = this.SPRITES_FOLDER + filename
         }
         super.moveAndResizeHitBox()

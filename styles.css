@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'press_start_2pregular';
     src: url('./fonts/pressstart2p-regular-webfont.woff2') format('woff2'),
-         url('./fonts/pressstart2p-regular-webfont.woff') format('woff');
+        url('./fonts/pressstart2p-regular-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -76,7 +76,6 @@ body {
 
 .interface-element {
     z-index: 5;
-    position: absolute;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -91,10 +90,75 @@ body {
 }
 
 #timer {
+    position: absolute;
     top: 40px;
     left: calc(100% - 160px);
     width: 110px;
     height: 45px;
+}
+
+/* .grid-container {
+    z-index: 5;
+    position: absolute;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-gap: 30px;
+    padding: 0px 50px;
+    top: calc(100% - 150px);
+    left: 0;
+    width: 100%;
+    height: 100px;
+}
+
+.grid-container>div {
+    position: relative;
+    height: 100%;
+    width: 90%;
+} */
+
+.flex-container {
+    z-index: 5;
+    position: absolute;
+    display: flex;
+    gap: 20px;
+    margin: 0 0;
+    padding: 0 0;
+    top: calc(100% - 130px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    height: 100px;
+}
+
+.flex-container>div {
+    position: relative;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+#shot {
+    width: 200px;
+}
+
+#hit {
+    width: 500px;
+}
+
+#score {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    font-size: x-large;
+}
+
+.bullet {
+    width: 40px;
+    height: auto;
+}
+
+.hit-duck {
+    width: 30px;
+    height: auto;
 }
 
 .overlay {
@@ -163,11 +227,13 @@ body {
         width: 70%;
         height: 40%;
     }
+
     .modal-button {
         font-size: smaller;
         width: 135px;
         height: 50px;
     }
+
     .modal-button:hover {
         transform: scale(1.2);
     }
@@ -179,11 +245,13 @@ body {
         width: 70%;
         height: 30%;
     }
+
     .modal-button {
         font-size: large;
         width: 180px;
         height: 60px;
     }
+
     .modal-button:hover {
         transform: scale(1.3);
     }
@@ -196,8 +264,9 @@ body {
         width: 200px;
         height: 90px;
     }
+
     .modal-button:hover {
-        transform: scale(1.3);
+        transform: scale(1.2);
     }
 }
 
@@ -225,6 +294,7 @@ body {
         width: 50%;
         height: 50%;
     }
+
     .modal-button {
         font-size: x-large;
         width: 18vw;

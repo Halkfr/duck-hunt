@@ -1,24 +1,27 @@
-// function preloadImages(array) {
-//     if (!preloadImages.list) {
-//         preloadImages.list = [];
-//     }
-//     var list = preloadImages.list;
-//     for (var i = 0; i < array.length; i++) {
-//         var img = new Image();
-//         img.onload = function() {
-//             var index = list.indexOf(this);
-//             if (index !== -1) {
-//                 // remove image from the array once it's loaded
-//                 // for memory consumption reasons
-//                 list.splice(index, 1);
-//             }
-//         }
-//         list.push(img);
-//         img.src = array[i];
-//     }
-// }
+function fillInterfaceElements() {
+    const shotElement = document.body.querySelector('#shot')
+    for (let i = 0; i < 3; i++) {
+        const element = createElement('./sprites/bullet.png', 'bullet-' + i, 'bullet')
+        shotElement.appendChild(element)
+    }
 
-// preloadImages(["url1.jpg", "url2.jpg", "url3.jpg"]);
+    const hitElement = document.body.querySelector('#hit')
+    for (let i = 0; i < 10; i++) {
+        const element = createElement('./sprites/hit-duck-inactive.png', 'hit-duck-' + i, 'hit-duck')
+        hitElement.appendChild(element)
+    }
+
+    function createElement(src, id, classes) {
+        const img = document.createElement('img')
+        img.src = src
+        img.setAttribute('id', id)
+        img.classList.add(classes)
+
+        return img
+    }
+}
+
+fillInterfaceElements()
 
 import { Duck } from '/actors.js'
 import { Hunter } from '/actors.js'
