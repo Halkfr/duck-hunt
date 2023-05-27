@@ -25,3 +25,4 @@ TODO:
 2. Improve Duck generateAim function
 3. Preload images?
 4. fix duck fly away timer to it be not active when paused
+5. fix duck fly away condition, should flyes away when not dead

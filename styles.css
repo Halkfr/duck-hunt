@@ -4,10 +4,63 @@
         url('./fonts/pressstart2p-regular-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
+}
 
+@font-face {
+    font-family: 'duckHunt';
+    src: url('./fonts/m29.woff2') format('woff2'),
+        url('./fonts/m29.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+hr {
+    padding: 0;
+    margin: 0;
+    border-color: #996600;
+    background-color: #996600;
+    box-sizing: border-box;
+    width: 37.5vw;
+    height: 1vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.title {
+    color: #33ccff;
+    font-size: 7.5vw;
+    letter-spacing: 1.5px;
+}
+.text {
+    padding: 3vh;
+    box-sizing: border-box;
+    font-family: 'duckHunt';
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    width: 100vw;
+}
+.topScore {
+    font-size: 1.25vw;
+    font-family: 'press_start_2pregular';
+    color: #00ff08;
+}
+.blink_me {
+    font-size: 2vw;
+    padding: 20vh;
+    color: #ffffff;
+    animation: blinker 2s ease-in-out infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
 }
 
 body {
+    /* background-color: black; */
     padding: 0;
     margin: 0;
     box-sizing: border-box;
