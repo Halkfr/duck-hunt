@@ -1,15 +1,15 @@
 @font-face {
     font-family: 'press_start_2pregular';
-    src: url('./fonts/pressstart2p-regular-webfont.woff2') format('woff2'),
-        url('./fonts/pressstart2p-regular-webfont.woff') format('woff');
+    src: url('./fonts/pressstart2p-regular/pressstart2p-regular-webfont.woff2') format('woff2'),
+        url('./fonts/pressstart2p-regular/pressstart2p-regular-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'duckHunt';
-    src: url('./fonts/m29.woff2') format('woff2'),
-        url('./fonts/m29.woff') format('woff');
+    src: url('./fonts/m29/m29.woff2') format('woff2'),
+        url('./fonts/m29/m29.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
