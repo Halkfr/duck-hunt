@@ -1,13 +1,13 @@
 function fillInterfaceElements() {
     const shotElement = document.body.querySelector('#shot')
     for (let i = 0; i < 3; i++) {
-        const element = createElement('./sprites/bullet.png', 'bullet-' + i, 'bullet')
+        const element = createElement('./sprites/interface/bullet.png', 'bullet-' + i, 'bullet')
         shotElement.appendChild(element)
     }
 
     const hitElement = document.body.querySelector('#hit')
     for (let i = 0; i < 10; i++) {
-        const element = createElement('./sprites/hit-duck-inactive.png', 'hit-duck-' + i, 'hit-duck')
+        const element = createElement('./sprites/interface/hit-duck-inactive.png', 'hit-duck-' + i, 'hit-duck')
         hitElement.appendChild(element)
     }
 
@@ -46,6 +46,19 @@ const duck = new Duck('duck-left-up.gif', 7, props.duck.left, props.duck.top, pr
 const hunter = new Hunter('hunter-right.png', 15, props.hunter.left, props.hunter.top, props.hunter.width, props.hunter.moveArea)
 
 export let actors = [duck, hunter]
+
+// console.log(duck.getImg)
+
+// duck.getImg.addEventListener("change", (event) => {
+//     console.log('duck changed')
+//     if (duck.getAlive == false) addKilledDuckToHitInterface()
+// });
+
+// function addKilledDuckToHitInterface() {
+//     const hitDucks = document.body.querySelectorAll('.hit-duck')
+//     const hitElement = document.body.querySelector('#hit')
+//     hitElement.removeChild(hitDucks[hitDucks.length - 1])
+// }
 
 onresize = () => {
     // console.log('resize')

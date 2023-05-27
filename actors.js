@@ -16,6 +16,14 @@ class Actor {
         })
     }
 
+    get getAlive() {
+        return this.alive;
+    }
+
+    get getImg() {
+        return this.img;
+    }
+
     pause() {
         this.paused = true
     }
