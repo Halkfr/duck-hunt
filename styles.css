@@ -31,7 +31,7 @@ hr {
     font-size: 7.5vw;
     letter-spacing: 1.5px;
 }
-.text {
+.start-menu-text {
     padding: 3vh;
     box-sizing: border-box;
     font-family: 'duckHunt';
@@ -41,12 +41,12 @@ hr {
     align-content: center;
     width: 100vw;
 }
-.topScore {
+.top-score {
     font-size: 1.25vw;
     font-family: 'press_start_2pregular';
     color: #00ff08;
 }
-.blink_me {
+.blink-me {
     font-size: 2vw;
     padding: 20vh;
     color: #ffffff;
