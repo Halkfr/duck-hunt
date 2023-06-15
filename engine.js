@@ -15,7 +15,9 @@ function fillInterfaceElements() {
         const img = document.createElement('img')
         img.src = src
         img.setAttribute('id', id)
-        img.classList.add(classes)
+        classes.split(' ').forEach(c => {
+            img.classList.add(c)
+        });
 
         return img
     }
@@ -40,12 +42,17 @@ const countProps = () => {
     return { duck: { top: duckTop, left: duckLeft, width: duckWidth, moveArea: duckMoveArea }, hunter: { top: hunterTop, left: hunterLeft, width: hunterWidth, moveArea: hunterMoveArea } }
 }
 
-let props = countProps()
-console.log(props.duck.top)
-const duck = new Duck('duck-left-up.gif', 7, props.duck.left, props.duck.top, props.duck.width, props.duck.moveArea)
-const hunter = new Hunter('hunter-right.png', 15, props.hunter.left, props.hunter.top, props.hunter.width, props.hunter.moveArea)
 
-export let actors = [duck, hunter]
+function startLevel() {
+    let props = countProps()
+    console.log(props.duck.top)
+    const duck = new Duck('duck-left-up.gif', 7, props.duck.left, props.duck.top, props.duck.width, props.duck.moveArea)
+    const hunter = new Hunter('hunter-right.png', 15, props.hunter.left, props.hunter.top, props.hunter.width, props.hunter.moveArea)
+
+    return [duck, hunter]
+}
+
+export let actors = startLevel()
 
 // console.log(duck.getImg)
 
