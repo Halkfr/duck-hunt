@@ -14,43 +14,73 @@
     font-style: normal;
 }
 
+
+
+#start-menu {
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+
+#start-menu-block{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#game-name-block {
+    box-sizing: border-box;
+    flex-direction: column;
+    padding-left: 31vw;
+    padding-right: 31vw;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    user-select: none;
+}
+
+.title {
+    box-sizing: border-box;
+    padding: 1vh;
+    font-family: 'duckHunt';
+    color: #33ccff;
+    font-size: 7.5vw;
+    letter-spacing: 1.5px;
+}
+
 hr {
     padding: 0;
     margin: 0;
     border-color: #996600;
     background-color: #996600;
     box-sizing: border-box;
-    width: 37.5vw;
+    width: 100%;
     height: 1vh;
     margin-left: auto;
     margin-right: auto;
 }
 
-.title {
-    color: #33ccff;
-    font-size: 7.5vw;
-    letter-spacing: 1.5px;
+/* 
+div.align-left{
+    text-align: left;
 }
-.start-menu-text {
-    padding: 3vh;
-    box-sizing: border-box;
-    font-family: 'duckHunt';
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: center;
-    width: 100vw;
-}
-.top-score {
-    font-size: 1.25vw;
-    font-family: 'press_start_2pregular';
-    color: #00ff08;
-}
+
+div.align-right{
+    text-align: right;
+} */
+
 .blink-me {
+    font-family: 'duckHunt';
     font-size: 2vw;
-    padding: 20vh;
+    text-align: center;
     color: #ffffff;
     animation: blinker 2s ease-in-out infinite;
+    box-sizing: border-box;
+    justify-content: center;
 }
 
 @keyframes blinker {
@@ -59,8 +89,16 @@ hr {
     }
 }
 
+.top-score {
+    font-size: 1.25vw;
+    font-family: 'press_start_2pregular';
+    color: #00ff08;
+    text-align: center;
+}
+
+
+
 body {
-    /* background-color: black; */
     padding: 0;
     margin: 0;
     box-sizing: border-box;

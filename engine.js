@@ -25,9 +25,6 @@ function fillInterfaceElements() {
 
 fillInterfaceElements()
 
-import { Duck } from '/actors.js'
-import { Hunter } from '/actors.js'
-
 const countProps = () => {
     // background.png size 1265x769
     const kWidth = window.innerWidth / 1265, kHeight = window.innerHeight / 769, k = kHeight < kWidth ? kHeight : kWidth
@@ -42,6 +39,18 @@ const countProps = () => {
     return { duck: { top: duckTop, left: duckLeft, width: duckWidth, moveArea: duckMoveArea }, hunter: { top: hunterTop, left: hunterLeft, width: hunterWidth, moveArea: hunterMoveArea } }
 }
 
+const startMenu = document.body.querySelector('#start-menu')
+
+document.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        startMenu.classList.add("hidden")
+        //somehow start level
+    }
+})
+
+
+import { Duck } from '/actors.js'
+import { Hunter } from '/actors.js'
 
 function startLevel() {
     let props = countProps()

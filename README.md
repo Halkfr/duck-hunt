@@ -26,3 +26,6 @@ TODO:
 3. Preload images?
 4. fix duck fly away timer to it be not active when paused
 5. fix duck fly away condition, should flyes away when not dead
+5. Make game inactive during start menu
+6. Add menu elements to container and center 
+7. Add top score to cookies
