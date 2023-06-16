@@ -96,9 +96,8 @@ div.align-right{
     text-align: center;
 }
 
-
-
 body {
+    cursor: url("./sprites/target.cur") 15 15, auto;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
