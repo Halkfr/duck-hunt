@@ -108,7 +108,7 @@ export class Duck extends Actor {
         let escape = false
 
         setTimeout(() => {
-           flyAway()
+                flyAway()
         }, 10000)
 
         const flyStep = () => {
@@ -153,15 +153,17 @@ export class Duck extends Actor {
         };
         animationFrameId = requestAnimationFrame(flyStep);
 
-        const flyAway = () =>  {
+        const flyAway = () => {
+            if (this.alive){
             this.#setAnimation(aim, 'duck-fly-away.gif')
-            aim = { x: parseInt(this.img.style.left), y: 0 - 2*parseInt(this.img.height) }
+            aim = { x: parseInt(this.img.style.left), y: 0 - 2 * parseInt(this.img.height) }
             escape = true
+            }
         }
     }
 
     #setAnimation(aim, filename) {
-        if (filename == undefined){
+        if (filename == undefined) {
             const deltaX = aim.x - parseInt(this.img.style.left)
             const deltaY = -(aim.y - parseInt(this.img.style.top))
             const tan = deltaY / deltaX

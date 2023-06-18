@@ -61,6 +61,21 @@ document.addEventListener("keypress", function (event) {
     }
 })
 
+  document.addEventListener("click", function() {
+    let bulletsLeftElement = document.getElementById("bullets-left");
+    let bulletsLeft = bulletsLeftElement.innerHTML;
+  
+    if (bulletsLeft > 0) {
+      bulletsLeftElement.innerHTML = Number(bulletsLeft) - 1;
+      document.getElementById("bullet-" + (bulletsLeft - 1)).remove();
+  
+      if (bulletsLeftElement.innerHTML == 0) {
+        bulletsLeftElement.classList.remove("hidden");
+        bulletsLeftElement.style.fontSize = "x-large";
+      }
+    }
+  });
+
 // console.log(duck.getImg)
 
 // duck.getImg.addEventListener("change", (event) => {

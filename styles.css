@@ -97,7 +97,6 @@ div.align-right{
 }
 
 body {
-    cursor: url("./sprites/target.cur") 15 15, auto;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -145,6 +144,7 @@ body {
 }
 
 #grass {
+    cursor: url("./sprites/target.cur") 15 15, auto;
     z-index: 3;
     position: absolute;
     width: 100%;
@@ -157,6 +157,7 @@ body {
 }
 
 .hitbox {
+    cursor: url("./sprites/target_locked.cur") 15 15, auto;
     z-index: 4;
     position: absolute;
     background-color: rgb(228, 129, 129);

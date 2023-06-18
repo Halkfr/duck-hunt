@@ -41,6 +41,7 @@ function pauseGame() {
     openMenu()
     pauseTimer()
     pauseActors()
+    // TODO: pause duck flyAway timeout
 }
 
 function pauseActors() {
