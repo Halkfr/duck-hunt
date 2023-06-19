@@ -5,15 +5,6 @@ const menu = document.body.querySelector('#menu')
 const continueButton = menu.querySelector('#continue-button')
 const restartButton = menu.querySelector('#restart-button')
 
-const timer = document.querySelector("#timer")
-let elapsedTime = 0
-let currentTime = 0
-let pauseTime = 0
-let time = { secs: 0, mins: 0 }
-let intervalId = setInterval(updateTime, 1000)
-
-let startTime = Date.now() - elapsedTime
-
 //window lost focus
 window.addEventListener('blur', function() {
     pauseGame()
@@ -77,20 +68,27 @@ function openMenu() {
     menu.classList.remove('hidden')
 }
 
+const timer = document.querySelector("#timer")
+let elapsedTime = 0
+let pauseTime = 0
+let time = { secs: 0, mins: 0 }
+let intervalId = setInterval(updateTime, 1000)
+
+let startTime = Date.now() - elapsedTime
+
 function pauseTimer() {
     pauseTime = Date.now()
     clearInterval(intervalId)
 }
 
 function continueTimer() {
-    pauseTime = Date.now() - pauseTime
-    startTime += pauseTime
+    let timeDifference = Date.now() - pauseTime
+    startTime += timeDifference
     intervalId = setInterval(updateTime, 100)
 }
 
 function resetTimer() {
     elapsedTime = 0
-    currentTime = 0
     pauseTime = 0
     time = { secs: 0, mins: 0 }
     intervalId = setInterval(updateTime, 1000)
