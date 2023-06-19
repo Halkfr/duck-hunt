@@ -247,6 +247,10 @@ body {
     height: auto;
 }
 
+#bullets-left{
+    font-size: x-large;
+}
+
 .hit-duck {
     width: 30px;
     height: auto;

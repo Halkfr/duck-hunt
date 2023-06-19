@@ -71,7 +71,7 @@ document.addEventListener("keypress", function (event) {
   
       if (bulletsLeftElement.innerHTML == 0) {
         bulletsLeftElement.classList.remove("hidden");
-        bulletsLeftElement.style.fontSize = "x-large";
+        //TODO: ducks fly away
       }
     }
   });
