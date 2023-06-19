@@ -26,10 +26,12 @@ class Actor {
 
     pause() {
         this.paused = true
+        // pause duck flyAway timeout
     }
 
     continue() {
         this.paused = false
+        // pause duck flyAway timeout
     }
 
     #createImage(src, id, classes, left, top, width) {
@@ -108,7 +110,7 @@ export class Duck extends Actor {
         let escape = false
 
         setTimeout(() => {
-                flyAway()
+            flyAway()
         }, 10000)
 
         const flyStep = () => {
@@ -128,7 +130,7 @@ export class Duck extends Actor {
 
             if (!this.paused) {
                 if (Math.abs(parseInt(this.img.style.left) - aim.x) <= 5 && Math.abs(parseInt(this.img.style.top) - aim.y) <= 5) {
-                    if (this.isFalling || escape) {
+                    if (this.isFalling || this.escape) {
                         this.isFalling = false
                         cancelAnimationFrame(animationFrameId)
                         super.removeImage()
@@ -154,10 +156,13 @@ export class Duck extends Actor {
         animationFrameId = requestAnimationFrame(flyStep);
 
         const flyAway = () => {
-            if (this.alive){
-            this.#setAnimation(aim, 'duck-fly-away.gif')
-            aim = { x: parseInt(this.img.style.left), y: 0 - 2 * parseInt(this.img.height) }
-            escape = true
+            if (this.alive) {
+                this.#setAnimation(aim, 'duck-fly-away.gif')
+                aim = { x: parseInt(this.img.style.left), y: 0 - 2 * parseInt(this.img.height) }
+                this.escape = true
+                let duckIcon = document.querySelector('[id^="hit-duck-"]')
+                duckIcon.src = './sprites/interface/hit-duck-saved.png'
+                duckIcon.id = 'duck-saved'
             }
         }
     }
@@ -199,8 +204,12 @@ export class Duck extends Actor {
     }
 
     kill = () => {
-        this.alive = false
-        console.log('duck killed')
+        if (this.alive && !this.escape) {
+            let duckIcon = document.querySelector('[id^="hit-duck-"]')
+            duckIcon.src = './sprites/interface/hit-duck-killed.png'
+            duckIcon.id = 'duck-killed'
+            this.alive = false
+        }
     }
 
     #generateAim() {

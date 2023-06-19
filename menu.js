@@ -5,8 +5,24 @@ const menu = document.body.querySelector('#menu')
 const continueButton = menu.querySelector('#continue-button')
 const restartButton = menu.querySelector('#restart-button')
 
+function startingMenu() {
+    pauseActors()
+    pauseTimer()
+}
+
+window.onload = function () {
+    startingMenu()
+}
+
+document.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        document.body.querySelector('#start-menu').classList.add("hidden")
+        continueGame()
+    }
+})
+
 //window lost focus
-window.addEventListener('blur', function() {
+window.addEventListener('blur', function () {
     pauseGame()
 });
 
@@ -32,18 +48,19 @@ function pauseGame() {
     openMenu()
     pauseTimer()
     pauseActors()
-    // TODO: pause duck flyAway timeout
 }
 
 function pauseActors() {
     actors.forEach(actor => {
         actor.pause()
+        // pause escape timer
     });
 }
 
 function continueActors() {
     actors.forEach(actor => {
         actor.continue()
+        // continue escape timer
     });
 }
 

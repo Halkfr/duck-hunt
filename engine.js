@@ -53,28 +53,20 @@ function startLevel() {
 
 export let actors = startLevel()
 
-document.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-        const startMenu = document.body.querySelector('#start-menu')
-        startMenu.classList.add("hidden")
-        //somehow start level
-    }
-})
-
-  document.addEventListener("click", function() {
+document.addEventListener("click", function () {
     let bulletsLeftElement = document.getElementById("bullets-left");
     let bulletsLeft = bulletsLeftElement.innerHTML;
-  
+
     if (bulletsLeft > 0) {
-      bulletsLeftElement.innerHTML = Number(bulletsLeft) - 1;
-      document.getElementById("bullet-" + (bulletsLeft - 1)).remove();
-  
-      if (bulletsLeftElement.innerHTML == 0) {
-        bulletsLeftElement.classList.remove("hidden");
-        //TODO: ducks fly away
-      }
+        bulletsLeftElement.innerHTML = Number(bulletsLeft) - 1;
+        document.getElementById("bullet-" + (bulletsLeft - 1)).remove();
+
+        if (bulletsLeftElement.innerHTML == 0) {
+            bulletsLeftElement.classList.remove("hidden");
+            //TODO: if no bullets all ducks fly away
+        }
     }
-  });
+});
 
 // console.log(duck.getImg)
 

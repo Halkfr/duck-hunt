@@ -23,9 +23,8 @@ add async to functions?
 TODO: 
 1. Change speed of the duck according to screen size (PC/mobile)? Make hitbox bigger?
 2. Improve Duck generateAim function
-3. Preload images?
-4. fix duck fly away timer to it be not active when paused
-5. fix duck fly away condition, should flyes away when not dead
-5. Make game inactive during start menu
-6. Add menu elements to container and center 
-7. Add top score to cookies
+3. Make game inactive during start menu
+4. Add top score to cookies
+5. Timer works correctly if window lost focus and continue is pressed
+6. If exiting window in continue menu and staring game with esc button timer doens't work correctly
+
