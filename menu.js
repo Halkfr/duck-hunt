@@ -5,13 +5,9 @@ const menu = document.body.querySelector('#menu')
 const continueButton = menu.querySelector('#continue-button')
 const restartButton = menu.querySelector('#restart-button')
 
-function startingMenu() {
+window.onload = function startingMenu() {
     pauseActors()
     pauseTimer()
-}
-
-window.onload = function () {
-    startingMenu()
 }
 
 document.addEventListener("keypress", function (event) {
@@ -53,14 +49,12 @@ function pauseGame() {
 function pauseActors() {
     actors.forEach(actor => {
         actor.pause()
-        // pause escape timer
     });
 }
 
 function continueActors() {
     actors.forEach(actor => {
         actor.continue()
-        // continue escape timer
     });
 }
 

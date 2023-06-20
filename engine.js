@@ -63,7 +63,7 @@ document.addEventListener("click", function () {
 
         if (bulletsLeftElement.innerHTML == 0) {
             bulletsLeftElement.classList.remove("hidden");
-            //TODO: if no bullets all ducks fly away
+            // TODO: if no bullets all ducks fly away
         }
     }
 });

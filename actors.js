@@ -107,7 +107,6 @@ export class Duck extends Actor {
         let aim = this.#generateAim()
         this.#setAnimation(aim) // look at the direction first time
         let animationFrameId = null
-        let escape = false
 
         setTimeout(() => {
             flyAway()
@@ -159,10 +158,11 @@ export class Duck extends Actor {
             if (this.alive) {
                 this.#setAnimation(aim, 'duck-fly-away.gif')
                 aim = { x: parseInt(this.img.style.left), y: 0 - 2 * parseInt(this.img.height) }
+                
+                this.#editDuckIcon('./sprites/interface/hit-duck-saved.png', 'duck-saved')
+                this.#addToScore(200) // change score later
+
                 this.escape = true
-                let duckIcon = document.querySelector('[id^="hit-duck-"]')
-                duckIcon.src = './sprites/interface/hit-duck-saved.png'
-                duckIcon.id = 'duck-saved'
             }
         }
     }
@@ -205,15 +205,26 @@ export class Duck extends Actor {
 
     kill = () => {
         if (this.alive && !this.escape) {
-            let duckIcon = document.querySelector('[id^="hit-duck-"]')
-            duckIcon.src = './sprites/interface/hit-duck-killed.png'
-            duckIcon.id = 'duck-killed'
+            this.#editDuckIcon('./sprites/interface/hit-duck-killed.png', 'duck-killed')
+            this.#addToScore(5) // change score later
+            
             this.alive = false
         }
     }
 
     #generateAim() {
         return { x: super.randomIntFromInterval(0, this.moveArea.width), y: super.randomIntFromInterval(0, this.moveArea.height) };
+    }
+
+    #editDuckIcon = (src, id) => {
+        let duckIcon = document.querySelector('[id^="hit-duck-"]')
+        duckIcon.src = src
+        duckIcon.id = id
+    }
+
+    #addToScore = (score) => {
+        let scoreElement = Number(document.getElementById("score-number").innerHTML)
+        document.getElementById("score-number").innerHTML = (scoreElement + score).toString().padStart(6, "0")
     }
 }
 
@@ -276,12 +287,20 @@ export class Hunter extends Actor {
     }
 
     kill = () => {
-        this.alive = false
-        console.log('hunter scared')
-        cancelAnimationFrame(this.animationFrameId)
+        if (this.alive) {
+            console.log('hunter scared')
+            cancelAnimationFrame(this.animationFrameId) // instead add hunter animation
+            this.#addToScore(1000) // change score later
+            this.alive = false
+        }
     }
 
     #generateAim() {
         return { x: super.randomIntFromInterval(this.moveArea.leftX, this.moveArea.rightX) };
+    }
+
+    #addToScore = (score) => {
+        let scoreElement = Number(document.getElementById("score-number").innerHTML)
+        document.getElementById("score-number").innerHTML = (scoreElement + score).toString().padStart(6, "0")
     }
 }
