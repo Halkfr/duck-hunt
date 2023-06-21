@@ -1,5 +1,5 @@
-var Timer = function(callback, delay) {
-    var timerId, start, remaining = delay;
+const Timer = function(callback, delay) {
+    let timerId, start, remaining = delay;
 
     this.pause = function() {
         window.clearTimeout(timerId);
@@ -158,7 +158,7 @@ export class Duck extends Actor {
                 }
                 let distanceX = aim.x - parseInt(this.img.style.left)
                 let distanceY = aim.y - parseInt(this.img.style.top)
-                var magnitude = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+                let magnitude = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
                 const deltaX = distanceX * speed / magnitude
                 const deltaY = distanceY * speed / magnitude
 
