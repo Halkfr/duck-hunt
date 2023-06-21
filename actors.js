@@ -237,6 +237,7 @@ export class Duck extends Actor {
         return { x: super.randomIntFromInterval(0, this.moveArea.width), y: super.randomIntFromInterval(0, this.moveArea.height) };
     }
 
+    // TODO: move editDuckIcon and addEditScore to engine.js
     #editDuckIcon = (src, id) => {
         let duckIcon = document.querySelector('[id^="hit-duck-"]')
         duckIcon.src = src
