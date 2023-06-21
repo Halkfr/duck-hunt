@@ -1,3 +1,24 @@
+var Timer = function(callback, delay) {
+    var timerId, start, remaining = delay;
+
+    this.pause = function() {
+        window.clearTimeout(timerId);
+        timerId = null;
+        remaining -= Date.now() - start;
+    };
+
+    this.continue = function() {
+        if (timerId) {
+            return;
+        }
+
+        start = Date.now();
+        timerId = window.setTimeout(callback, remaining);
+    };
+
+    this.continue();
+};
+
 class Actor {
     constructor(folder, src, id, classes, left, top, width, hitbox) {
         this.SPRITES_FOLDER = folder
@@ -9,6 +30,7 @@ class Actor {
         this.alive = true
         this.isFalling = false
         this.paused = false
+        this.timer = new Timer()
 
         this.hitBox.element.addEventListener('mousedown', (event) => {
             event.preventDefault()
@@ -26,12 +48,12 @@ class Actor {
 
     pause() {
         this.paused = true
-        // pause duck flyAway timeout
+        this.timer.pause()
     }
 
     continue() {
         this.paused = false
-        // pause duck flyAway timeout
+        this.timer.continue()
     }
 
     #createImage(src, id, classes, left, top, width) {
@@ -101,45 +123,43 @@ export class Duck extends Actor {
         this.#fly(speed)
         this.animationFrameId = null
         this.duckHiddenPositionTop = top
+        this.aim = this.#generateAim()
+        this.timer = new Timer(this.#flyAway, 1000)
     }
 
     #fly(speed) {
-        let aim = this.#generateAim()
-        this.#setAnimation(aim) // look at the direction first time
+        this.aim = this.#generateAim()
+        this.#setAnimation(this.aim) // look at the direction first time
         let animationFrameId = null
-
-        setTimeout(() => {
-            flyAway()
-        }, 10000)
 
         const flyStep = () => {
             if (!this.alive) {
                 if (!this.isFalling) {
-                    this.#setAnimation(aim, 'duck-hit.png')
+                    this.#setAnimation(this.aim, 'duck-hit.png')
                     this.pause()
-                    aim = { x: parseInt(this.img.style.left), y: parseInt(this.duckHiddenPositionTop) }
+                    this.aim = { x: parseInt(this.img.style.left), y: parseInt(this.duckHiddenPositionTop) }
                     // timeout for hit image
                     setTimeout(() => {
                         this.continue()
-                        this.#setAnimation(aim, 'duck-down.gif')
+                        this.#setAnimation(this.aim, 'duck-down.gif')
                     }, 500)
                     this.isFalling = true
                 }
             }
 
             if (!this.paused) {
-                if (Math.abs(parseInt(this.img.style.left) - aim.x) <= 5 && Math.abs(parseInt(this.img.style.top) - aim.y) <= 5) {
+                if (Math.abs(parseInt(this.img.style.left) - this.aim.x) <= 5 && Math.abs(parseInt(this.img.style.top) - this.aim.y) <= 5) {
                     if (this.isFalling || this.escape) {
                         this.isFalling = false
                         cancelAnimationFrame(animationFrameId)
                         super.removeImage()
                         return
                     }
-                    aim = this.#generateAim()
-                    this.#setAnimation(aim)
+                    this.aim = this.#generateAim()
+                    this.#setAnimation(this.aim)
                 }
-                let distanceX = aim.x - parseInt(this.img.style.left)
-                let distanceY = aim.y - parseInt(this.img.style.top)
+                let distanceX = this.aim.x - parseInt(this.img.style.left)
+                let distanceY = this.aim.y - parseInt(this.img.style.top)
                 var magnitude = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
                 const deltaX = distanceX * speed / magnitude
                 const deltaY = distanceY * speed / magnitude
@@ -153,17 +173,18 @@ export class Duck extends Actor {
             animationFrameId = requestAnimationFrame(flyStep)
         };
         animationFrameId = requestAnimationFrame(flyStep);
+    }
 
-        const flyAway = () => {
-            if (this.alive) {
-                this.#setAnimation(aim, 'duck-fly-away.gif')
-                aim = { x: parseInt(this.img.style.left), y: 0 - 2 * parseInt(this.img.height) }
-                
-                this.#editDuckIcon('./sprites/interface/hit-duck-saved.png', 'duck-saved')
-                this.#addToScore(200) // change score later
+    #flyAway(){
+        // call this function, but not go to if 
+        if (this.alive) {
+            this.#setAnimation('duck-fly-away.gif')
+            this.aim = { x: parseInt(this.img.style.left), y: 0 - 2 * parseInt(this.img.height) }
+            
+            this.#editDuckIcon('./sprites/interface/hit-duck-saved.png', 'duck-saved')
+            this.#addToScore(200) // change score later
 
-                this.escape = true
-            }
+            this.escape = true
         }
     }
 
