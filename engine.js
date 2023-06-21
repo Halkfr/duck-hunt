@@ -53,7 +53,11 @@ function startLevel() {
 
 export let actors = startLevel()
 
-document.addEventListener("click", function () {
+document.getElementById("grass").addEventListener("click", bulletsLeft);
+document.getElementById("hunter-hitbox").addEventListener("click", bulletsLeft);
+document.getElementById("duck-hitbox").addEventListener("click", bulletsLeft);
+
+function bulletsLeft() {
     let bulletsLeftElement = document.getElementById("bullets-left");
     let bulletsLeft = bulletsLeftElement.innerHTML;
 
@@ -66,7 +70,7 @@ document.addEventListener("click", function () {
             // TODO: if no bullets all ducks fly away
         }
     }
-});
+}
 
 // console.log(duck.getImg)
 
