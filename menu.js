@@ -11,9 +11,11 @@ window.onload = function startingMenu() {
 }
 
 document.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-        document.body.querySelector('#start-menu').classList.add("hidden")
-        continueGame()
+    if (actors[0].paused) {
+        if (event.key === "Enter") {
+            document.body.querySelector('#start-menu').classList.add("hidden")
+            continueGame()
+        }
     }
 })
 

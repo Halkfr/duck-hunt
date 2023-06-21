@@ -28,4 +28,5 @@ TODO:
 5. Timer works correctly if window lost focus and continue is pressed
 6. If exiting window in continue menu and staring game with esc button timer doens't work correctly
 7. Create hunter escape animation
+8. If exit from start menu timer starts going on
 
