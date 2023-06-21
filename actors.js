@@ -123,43 +123,41 @@ export class Duck extends Actor {
         this.#fly(speed)
         this.animationFrameId = null
         this.duckHiddenPositionTop = top
-        this.aim = this.#generateAim()
-        this.timer = new Timer(this.#flyAway, 1000)
     }
 
     #fly(speed) {
-        this.aim = this.#generateAim()
-        this.#setAnimation(this.aim) // look at the direction first time
+        let aim = this.#generateAim()
+        this.#setAnimation(aim) // look at the direction first time
         let animationFrameId = null
 
         const flyStep = () => {
             if (!this.alive) {
                 if (!this.isFalling) {
-                    this.#setAnimation(this.aim, 'duck-hit.png')
+                    this.#setAnimation(aim, 'duck-hit.png')
                     this.pause()
-                    this.aim = { x: parseInt(this.img.style.left), y: parseInt(this.duckHiddenPositionTop) }
+                    aim = { x: parseInt(this.img.style.left), y: parseInt(this.duckHiddenPositionTop) }
                     // timeout for hit image
                     setTimeout(() => {
                         this.continue()
-                        this.#setAnimation(this.aim, 'duck-down.gif')
+                        this.#setAnimation(aim, 'duck-down.gif')
                     }, 500)
                     this.isFalling = true
                 }
             }
 
             if (!this.paused) {
-                if (Math.abs(parseInt(this.img.style.left) - this.aim.x) <= 5 && Math.abs(parseInt(this.img.style.top) - this.aim.y) <= 5) {
+                if (Math.abs(parseInt(this.img.style.left) - aim.x) <= 5 && Math.abs(parseInt(this.img.style.top) - aim.y) <= 5) {
                     if (this.isFalling || this.escape) {
                         this.isFalling = false
                         cancelAnimationFrame(animationFrameId)
                         super.removeImage()
                         return
                     }
-                    this.aim = this.#generateAim()
-                    this.#setAnimation(this.aim)
+                    aim = this.#generateAim()
+                    this.#setAnimation(aim)
                 }
-                let distanceX = this.aim.x - parseInt(this.img.style.left)
-                let distanceY = this.aim.y - parseInt(this.img.style.top)
+                let distanceX = aim.x - parseInt(this.img.style.left)
+                let distanceY = aim.y - parseInt(this.img.style.top)
                 var magnitude = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
                 const deltaX = distanceX * speed / magnitude
                 const deltaY = distanceY * speed / magnitude
@@ -173,19 +171,22 @@ export class Duck extends Actor {
             animationFrameId = requestAnimationFrame(flyStep)
         };
         animationFrameId = requestAnimationFrame(flyStep);
-    }
 
-    #flyAway(){
-        // call this function, but not go to if 
-        if (this.alive) {
-            this.#setAnimation('duck-fly-away.gif')
-            this.aim = { x: parseInt(this.img.style.left), y: 0 - 2 * parseInt(this.img.height) }
-            
-            this.#editDuckIcon('./sprites/interface/hit-duck-saved.png', 'duck-saved')
-            this.#addToScore(200) // change score later
-
-            this.escape = true
+        const flyAway = () => {
+            // call this function, but not go to if 
+            console.log(this.alive)
+            if (this.alive) {
+                this.#setAnimation(aim, 'duck-fly-away.gif')
+                aim = { x: parseInt(this.img.style.left), y: 0 - 2 * parseInt(this.img.height) }
+                
+                this.#editDuckIcon('./sprites/interface/hit-duck-saved.png', 'duck-saved')
+                this.#addToScore(200) // change score later
+    
+                this.escape = true
+            }
         }
+
+        this.timer = new Timer(flyAway, 10000)
     }
 
     #setAnimation(aim, filename) {
