@@ -36,6 +36,10 @@ document.addEventListener('keydown', (e) => {
     }
 })
 
+overlay.addEventListener('click', (e) => {
+    continueGame()
+})
+
 function continueGame() {
     closeMenu()
     continueTimer()

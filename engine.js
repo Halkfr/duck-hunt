@@ -72,19 +72,6 @@ function bulletsLeft() {
     }
 }
 
-// console.log(duck.getImg)
-
-// duck.getImg.addEventListener("change", (event) => {
-//     console.log('duck changed')
-//     if (duck.getAlive == false) addKilledDuckToHitInterface()
-// });
-
-// function addKilledDuckToHitInterface() {
-//     const hitDucks = document.body.querySelectorAll('.hit-duck')
-//     const hitElement = document.body.querySelector('#hit')
-//     hitElement.removeChild(hitDucks[hitDucks.length - 1])
-// }
-
 onresize = () => {
     // console.log('resize')
     props = countProps()
