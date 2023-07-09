@@ -117,8 +117,8 @@ class Actor {
 }
 
 export class Duck extends Actor {
-    constructor(src, speed, left, top, width, moveArea) {
-        super('./sprites/duck/', src, 'duck', 'sprite', left, top, width, { id: 'duck-hitbox', classes: 'hitbox', k: 1.6 })
+    constructor(folder, src, speed, left, top, width, moveArea) {
+        super('./sprites/' + folder, src, 'duck', 'sprite', left, top, width, { id: 'duck-hitbox', classes: 'hitbox', k: 1.6 })
         this.moveArea = moveArea
         this.#fly(speed)
         this.animationFrameId = null

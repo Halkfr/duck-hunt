@@ -45,10 +45,11 @@ import { Hunter } from '/actors.js'
 function startLevel() {
     let props = countProps()
     console.log(props.duck.top)
-    const duck = new Duck('duck-left-up.gif', 7, props.duck.left, props.duck.top, props.duck.width, props.duck.moveArea)
+    const duck1 = new Duck('duck/', 'duck-left-up.gif', 7, props.duck.left, props.duck.top, props.duck.width, props.duck.moveArea)
+    const duck2 = new Duck('duck-brown/', 'duck-left-up.gif', 7, props.duck.left, props.duck.top, props.duck.width, props.duck.moveArea)
     const hunter = new Hunter('hunter-right.png', 15, props.hunter.left, props.hunter.top, props.hunter.width, props.hunter.moveArea)
 
-    return [duck, hunter]
+    return [duck1, duck2, hunter]
 }
 
 export let actors = startLevel()
