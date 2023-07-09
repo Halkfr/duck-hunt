@@ -1,3 +1,13 @@
+function debounce(func, delay) {
+    let timerId;
+    return function (...args) {
+        clearTimeout(timerId);
+        timerId = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+}
+
 import { actors } from "./engine.js"
 
 const overlay = document.body.querySelector('#overlay')
@@ -25,16 +35,15 @@ window.addEventListener('blur', function () {
 });
 
 // menu open/close
-document.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', debounce((e) => {
     if (e.key === 'Escape') {
         if (menu.classList.contains('hidden')) {
-            pauseGame()
-        }
-        else {
-            continueGame()
+            pauseGame();
+        } else {
+            continueGame();
         }
     }
-})
+}, 200));
 
 overlay.addEventListener('click', (e) => {
     continueGame()
