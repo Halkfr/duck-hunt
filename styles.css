@@ -178,12 +178,29 @@ body {
     color: rgb(58, 56, 53);
 }
 
-#timer {
+#top-container {
     position: absolute;
+    flex-direction: column;
     top: 40px;
     left: calc(100% - 160px);
-    width: 110px;
-    height: 45px;
+    width: 120px;
+    height: fit-content;
+}
+
+#timer {
+    width: 100%;
+    height: 55px;
+}
+
+#egg-bomb {
+    width: 100%;
+    height: 90px;
+    padding: 10px;
+}
+
+#egg-bomb > img {
+    width: 50px;
+    height: 100%;
 }
 
 /* .grid-container {
