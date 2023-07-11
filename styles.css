@@ -22,7 +22,7 @@
     background-color: black;
 }
 
-#start-menu-block{
+#start-menu-block {
     width: 100%;
     height: 100%;
     display: flex;
@@ -62,15 +62,6 @@ hr {
     margin-right: auto;
 }
 
-/* 
-div.align-left{
-    text-align: left;
-}
-
-div.align-right{
-    text-align: right;
-} */
-
 .blink-me {
     font-family: 'duckHunt';
     font-size: 2vw;
@@ -85,6 +76,20 @@ div.align-right{
     50% {
         opacity: 0;
     }
+}
+
+.menu-button-container {
+    width: fit-content;
+    flex-direction: column;
+    padding-left: 31vw;
+}
+
+.menu-button {
+    padding: 0.25vh;
+    font-size: 1.75vw;
+    font-family: 'press_start_2pregular';
+    color: #ffa600;
+    text-align: left
 }
 
 .top-score {
@@ -198,7 +203,7 @@ body {
     padding: 10px;
 }
 
-#egg-bomb > img {
+#egg-bomb>img {
     width: 50px;
     height: 100%;
 }
@@ -262,7 +267,7 @@ body {
     height: auto;
 }
 
-#bullets-left{
+#bullets-left {
     font-size: x-large;
 }
 

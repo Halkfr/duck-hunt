@@ -28,3 +28,4 @@ TODO:
 10. Bug: after duck fly away escape triggers duck icon score and adds new saved duck!
 11. Game could pause on a screen shot
 12. Timer is still working laggy
+13. Bullets dont count on second duck
