@@ -20,14 +20,26 @@ window.onload = function startingMenu() {
     pauseTimer()
 }
 
-document.addEventListener("keypress", function (event) {
+document.onkeydown = (event) => {
     if (actors[0].paused) {
+
+        let a = document.getElementById("arrow-container").children[0]
+        let b = document.getElementById("arrow-container").children[1]
+
+        if (event.key === "ArrowUp") {
+            a.classList = "arrow"
+            b.classList = "arrow-hidden"
+        }
+        if (event.key === "ArrowDown") {
+            b.classList = "arrow"
+            a.classList = "arrow-hidden"
+        }
         if (event.key === "Enter") {
             document.body.querySelector('#start-menu').classList.add("hidden")
             continueGame()
         }
     }
-})
+}
 
 //window lost focus
 window.addEventListener('blur', function () {

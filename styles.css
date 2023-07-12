@@ -80,8 +80,29 @@ hr {
 
 .menu-button-container {
     width: fit-content;
-    flex-direction: column;
+    flex-direction: row;
+    display: flex;
     padding-left: 31vw;
+}
+
+#arrow-container{
+    vertical-align: bottom;
+}
+
+.arrow {
+    width: fit-content;
+    font-size: 1.75vw;
+    padding: 0.25vh;
+    color: #ffa600;
+    text-align: right;
+}
+
+.arrow-hidden{
+    width: fit-content;
+    font-size: 1.75vw;
+    padding: 0.25vh;
+    color: #000000;
+    text-align: right;
 }
 
 .menu-button {
@@ -89,7 +110,7 @@ hr {
     font-size: 1.75vw;
     font-family: 'press_start_2pregular';
     color: #ffa600;
-    text-align: left
+    text-align: left;
 }
 
 .top-score {
