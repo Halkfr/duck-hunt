@@ -20,6 +20,8 @@ window.onload = function startingMenu() {
     pauseTimer()
 }
 
+let gameMode = "Classic"
+
 document.onkeydown = (event) => {
     if (actors[0].paused) {
 
@@ -29,13 +31,16 @@ document.onkeydown = (event) => {
         if (event.key === "ArrowUp") {
             a.classList = "arrow"
             b.classList = "arrow-hidden"
+            gameMode = "Classic"
         }
         if (event.key === "ArrowDown") {
             b.classList = "arrow"
             a.classList = "arrow-hidden"
+            gameMode = "Angry Birds"
         }
         if (event.key === "Enter") {
             document.body.querySelector('#start-menu').classList.add("hidden")
+            console.log(gameMode)
             continueGame()
         }
     }
