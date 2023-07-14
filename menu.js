@@ -23,8 +23,8 @@ window.onload = function startingMenu() {
 let gameMode = "Classic"
 
 document.onkeydown = (event) => {
-    if (actors[0].paused) {
-
+    let startMenu = document.body.querySelector('#start-menu')
+    if (!startMenu.classList.contains("hidden")) {
         let a = document.getElementById("arrow-container").children[0]
         let b = document.getElementById("arrow-container").children[1]
 
@@ -39,7 +39,7 @@ document.onkeydown = (event) => {
             gameMode = "Angry Birds"
         }
         if (event.key === "Enter") {
-            document.body.querySelector('#start-menu').classList.add("hidden")
+            startMenu.classList.add("hidden")
             console.log(gameMode)
             continueGame()
         }
