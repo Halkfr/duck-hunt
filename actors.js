@@ -1,13 +1,13 @@
-const Timer = function(callback, delay) {
+const Timer = function (callback, delay) {
     let timerId, start, remaining = delay;
 
-    this.pause = function() {
+    this.pause = function () {
         window.clearTimeout(timerId);
         timerId = null;
         remaining -= Date.now() - start;
     };
 
-    this.continue = function() {
+    this.continue = function () {
         if (timerId) {
             return;
         }
@@ -33,8 +33,10 @@ class Actor {
         this.timer = new Timer()
 
         this.hitBox.element.addEventListener('mousedown', (event) => {
-            event.preventDefault()
-            this.kill()
+            if (document.getElementById("bullets-left").innerHTML > 0) {
+                event.preventDefault()
+                this.kill()
+            }
         })
     }
 
@@ -178,10 +180,10 @@ export class Duck extends Actor {
             if (this.alive) {
                 this.#setAnimation(aim, 'duck-fly-away.gif')
                 aim = { x: parseInt(this.img.style.left), y: 0 - 2 * parseInt(this.img.height) }
-                
+
                 this.#editDuckIcon('./sprites/interface/hit-duck-saved.png', 'duck-saved')
                 this.#addToScore(200) // change score later
-    
+
                 this.escape = true
             }
         }

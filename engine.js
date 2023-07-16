@@ -1,3 +1,6 @@
+const startMenu = document.body.querySelector('#start-menu')
+const modalMenu = document.body.querySelector('#menu')
+
 function fillInterfaceElements() {
     const shotElement = document.body.querySelector('#shot')
     for (let i = 0; i < 3; i++) {
@@ -48,16 +51,18 @@ async function manageLevel() {
     let ducksReleased = 0, ducksBatchSize = 0
 
     while (ducksReleased < 10) {
-        if (document.querySelectorAll('#duck').length == 0) {
-            ducksBatchSize = getRandomInt(3) + 1
+        if (startMenu.classList.contains("hidden") && modalMenu.classList.contains("hidden")) {
 
-            console.log('ducks batch', ducksBatchSize)
+            if (document.querySelectorAll('#duck').length == 0) {
+                ducksBatchSize = getRandomInt(3) + 1
 
-            if (ducksBatchSize <= 10 - ducksReleased) {
-                createDucksBanch(ducksBatchSize)
-            }
-            else {
-                createDucksBanch(10 - ducksReleased)
+                console.log('ducks batch', ducksBatchSize)
+                if (ducksBatchSize <= 10 - ducksReleased) {
+                    createDucksBanch(ducksBatchSize)
+                }
+                else {
+                    createDucksBanch(10 - ducksReleased)
+                }
             }
         }
 
@@ -70,7 +75,6 @@ async function manageLevel() {
     }
 
     function createDucksBanch(n) {
-
         const props = countProps()
 
         const createGreenDuck = () => {
@@ -103,22 +107,42 @@ setTimeout(manageLevel, 1000)
 
 console.log(actors)
 
-document.getElementById("grass").addEventListener("click", bulletsLeft);
-document.querySelectorAll(".hitbox").forEach(hitbox => {
-    addEventListener("click", bulletsLeft);
+document.querySelector("#grass").addEventListener("click", bulletsLeft);
+
+const targetNode = document.body;
+
+const config = {
+    childList: true,
+    subtree: true,
+};
+
+const observer = new MutationObserver(function (mutationsList, observer) {
+    for (let mutation of mutationsList) {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+            mutation.addedNodes.forEach(function (node) {
+                if (node.nodeName === 'SPAN') {
+                    node.addEventListener("click", bulletsLeft)
+                }
+            });
+        }
+    }
 });
 
+observer.observe(targetNode, config);
+
 function bulletsLeft() {
-    let bulletsLeftElement = document.getElementById("bullets-left");
-    let bulletsLeft = bulletsLeftElement.innerHTML;
+    if (modalMenu.classList.contains("hidden") && startMenu.classList.contains("hidden")) {
+        let bulletsLeftElement = document.getElementById("bullets-left");
+        let bulletsLeft = bulletsLeftElement.innerHTML;
 
-    if (bulletsLeft > 0) {
-        bulletsLeftElement.innerHTML = Number(bulletsLeft) - 1;
-        document.getElementById("bullet-" + (bulletsLeft - 1)).remove();
+        if (bulletsLeft > 0) {
+            bulletsLeftElement.innerHTML = Number(bulletsLeft) - 1;
+            document.getElementById("bullet-" + (bulletsLeft - 1)).remove();
 
-        if (bulletsLeftElement.innerHTML == 0) {
-            bulletsLeftElement.classList.remove("hidden");
-            // TODO: if no bullets all ducks fly away
+            if (bulletsLeftElement.innerHTML == 0) {
+                bulletsLeftElement.classList.remove("hidden");
+                // TODO: if no bullets all ducks fly away
+            }
         }
     }
 }
