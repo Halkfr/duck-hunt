@@ -1,31 +1,37 @@
 const startMenu = document.body.querySelector('#start-menu')
 const modalMenu = document.body.querySelector('#menu')
+export let bulletsCount = 3
 
 function fillInterfaceElements() {
     const shotElement = document.body.querySelector('#shot')
     shotElement.innerHTML = ''
-    for (let i = 0; i < 3; i++) {
-        const element = createElement('./sprites/interface/bullet.png', 'bullet-' + i, 'bullet')
-        shotElement.appendChild(element)
-    }
-
+    createBullets(bulletsCount)
     const hitElement = document.body.querySelector('#hit')
     hitElement.innerHTML = ''
     for (let i = 0; i < 10; i++) {
         const element = createElement('./sprites/interface/hit-duck-inactive.png', 'hit-duck-' + i, 'hit-duck')
         hitElement.appendChild(element)
     }
+}
 
-    function createElement(src, id, classes) {
-        const img = document.createElement('img')
-        img.src = src
-        img.setAttribute('id', id)
-        classes.split(' ').forEach(c => {
-            img.classList.add(c)
-        });
-
-        return img
+function createBullets(n) {
+    const shotElement = document.body.querySelector('#shot')
+    shotElement.innerHTML = ''
+    for (let i = 1; i <= n; i++) {
+        const element = createElement('./sprites/interface/bullet.png', 'bullet-' + i, 'bullet')
+        shotElement.appendChild(element)
     }
+}
+
+function createElement(src, id, classes) {
+    const img = document.createElement('img')
+    img.src = src
+    img.setAttribute('id', id)
+    classes.split(' ').forEach(c => {
+        img.classList.add(c)
+    });
+
+    return img
 }
 
 const countProps = () => {
@@ -57,6 +63,11 @@ async function manageLevel() {
                 ducksBatchSize = getRandomInt(3) + 1
 
                 console.log('ducks batch', ducksBatchSize)
+
+                bulletsCount = 3
+                createBullets(bulletsCount)
+
+                console.log(bulletsCount)
                 if (ducksBatchSize <= 10 - ducksReleased) {
                     createDucksBanch(ducksBatchSize)
                 }
@@ -116,7 +127,7 @@ async function manageGame() {
 
 manageGame()
 
-document.querySelector("#grass").addEventListener("click", bulletsLeft);
+document.querySelector("#grass").addEventListener("mousedown", bulletsLeft);
 
 const targetNode = document.body;
 
@@ -130,7 +141,7 @@ const observer = new MutationObserver(function (mutationsList, observer) {
         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
             mutation.addedNodes.forEach(function (node) {
                 if (node.nodeName === 'SPAN') {
-                    node.addEventListener("click", bulletsLeft)
+                    node.addEventListener("mousedown", bulletsLeft)
                 }
             });
         }
@@ -141,15 +152,16 @@ observer.observe(targetNode, config);
 
 function bulletsLeft() {
     if (modalMenu.classList.contains("hidden") && startMenu.classList.contains("hidden")) {
-        let bulletsLeftElement = document.getElementById("bullets-left");
-        let bulletsLeft = bulletsLeftElement.innerHTML;
+        if (bulletsCount > 0) {
+            document.getElementById("bullet-" + (bulletsCount)).remove();
+            bulletsCount--
 
-        if (bulletsLeft > 0) {
-            bulletsLeftElement.innerHTML = Number(bulletsLeft) - 1;
-            document.getElementById("bullet-" + (bulletsLeft - 1)).remove();
-
-            if (bulletsLeftElement.innerHTML == 0) {
-                bulletsLeftElement.classList.remove("hidden");
+            if (bulletsCount === 0) {
+                console.log("no bullets")
+                var divElement = document.createElement('div');
+                divElement.innerHTML = 0;
+                divElement.id = 'bullets-left';
+                document.querySelector("#shot").appendChild(divElement);
                 // TODO: if no bullets all ducks fly away
             }
         }

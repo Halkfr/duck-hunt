@@ -1,3 +1,5 @@
+import { bulletsCount } from "./engine.js";
+
 const Timer = function (callback, delay) {
     let timerId, start, remaining = delay;
 
@@ -33,7 +35,7 @@ class Actor {
         this.timer = new Timer()
 
         this.hitBox.element.addEventListener('mousedown', (event) => {
-            if (document.getElementById("bullets-left").innerHTML > 0) {
+            if (bulletsCount !== 0) {
                 event.preventDefault()
                 this.kill()
             }
@@ -231,7 +233,7 @@ export class Duck extends Actor {
         if (this.alive && !this.escape) {
             this.#editDuckIcon('./sprites/interface/hit-duck-killed.png', 'duck-killed')
             this.#addToScore(5) // change score later
-            
+
             this.alive = false
         }
     }
