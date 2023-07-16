@@ -130,7 +130,7 @@ function continueTimer() {
     intervalId = setInterval(updateTime, 100)
 }
 
-function resetTimer() {
+export function resetTimer() {
     elapsedTime = 0
     pauseTime = 0
     time = { secs: 0, mins: 0 }

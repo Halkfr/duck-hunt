@@ -3,12 +3,14 @@ const modalMenu = document.body.querySelector('#menu')
 
 function fillInterfaceElements() {
     const shotElement = document.body.querySelector('#shot')
+    shotElement.innerHTML = ''
     for (let i = 0; i < 3; i++) {
         const element = createElement('./sprites/interface/bullet.png', 'bullet-' + i, 'bullet')
         shotElement.appendChild(element)
     }
 
     const hitElement = document.body.querySelector('#hit')
+    hitElement.innerHTML = ''
     for (let i = 0; i < 10; i++) {
         const element = createElement('./sprites/interface/hit-duck-inactive.png', 'hit-duck-' + i, 'hit-duck')
         hitElement.appendChild(element)
@@ -25,8 +27,6 @@ function fillInterfaceElements() {
         return img
     }
 }
-
-fillInterfaceElements()
 
 const countProps = () => {
     // background.png size 1265x769
@@ -103,9 +103,18 @@ async function manageLevel() {
     }
 }
 
-setTimeout(manageLevel, 1000)
+import { resetTimer } from '/menu.js'
 
-console.log(actors)
+async function manageGame() {
+    fillInterfaceElements()
+    resetTimer()
+    while (true) {
+        fillInterfaceElements()
+        await manageLevel()
+    }
+}
+
+manageGame()
 
 document.querySelector("#grass").addEventListener("click", bulletsLeft);
 
