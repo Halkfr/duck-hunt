@@ -95,10 +95,13 @@ continueButton.addEventListener('click', () => {
 })
 
 // start new game
+
+import { manageGame } from '/engine.js'
+
 restartButton.addEventListener('click', () => {
     closeMenu()
     resetTimer()
-    // TODO: actors
+    manageGame()
 })
 
 function closeMenu() {
@@ -122,12 +125,14 @@ let startTime = Date.now() - elapsedTime
 function pauseTimer() {
     pauseTime = Date.now()
     clearInterval(intervalId)
+    console.log('pause timer')
 }
 
 function continueTimer() {
     let timeDifference = Date.now() - pauseTime
     startTime += timeDifference
     intervalId = setInterval(updateTime, 100)
+    console.log('continue timer')
 }
 
 export function resetTimer() {

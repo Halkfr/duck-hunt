@@ -71,12 +71,13 @@ async function manageLevel() {
                 createBullets(bulletsCount)
 
                 console.log(bulletsCount)
-                if (ducksReleased === 10){
+                if (ducksReleased === 10) {
                     fillInterfaceElements()
                     ducksReleased = 0
                 }
                 if (ducksBatchSize <= 10 - ducksReleased) {
                     createDucksBanch(ducksBatchSize)
+                    console.log('actors', actors)
                 }
                 else {
                     createDucksBanch(10 - ducksReleased)
@@ -89,14 +90,15 @@ async function manageLevel() {
     }
 
     return new Promise((resolve, reject) => {
-          resolve('Level finished');
-      });
+        resolve('Level finished');
+    });
 
     function getRandomInt(max) {
         return Math.floor(Math.random() * max);
     }
 
     function createDucksBanch(n) {
+        deleteActors()
         const props = countProps()
 
         const createGreenDuck = () => {
@@ -127,7 +129,8 @@ async function manageLevel() {
 
 import { resetTimer } from '/menu.js'
 
-async function manageGame() {
+export async function manageGame() {
+    deleteActors()
     resetTimer()
     while (true) {
         fillInterfaceElements()
@@ -175,6 +178,30 @@ function bulletsLeft() {
                 // TODO: if no bullets all ducks fly away
             }
         }
+    }
+}
+
+function deleteActors() {
+    deleteSpritesAndHitboxes()
+    actors = []
+
+    function deleteSpritesAndHitboxes() {
+        const deleteSprites = () => {
+            let sprites = document.querySelectorAll('.sprite')
+            sprites.forEach(sprite => {
+                sprite.remove()
+            });
+        }
+
+        const deleteHitboxes = () => {
+            let duckHitboxes = document.querySelectorAll('.hitbox')
+            duckHitboxes.forEach(hitbox => {
+                hitbox.remove()
+            });
+        }
+
+        deleteSprites()
+        deleteHitboxes()
     }
 }
 
