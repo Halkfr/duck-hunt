@@ -177,8 +177,6 @@ export class Duck extends Actor {
         animationFrameId = requestAnimationFrame(flyStep);
 
         const flyAway = () => {
-            // call this function, but not go to if 
-            console.log(this.alive)
             if (this.alive) {
                 this.#setAnimation(aim, 'duck-fly-away.gif')
                 aim = { x: parseInt(this.img.style.left), y: 0 - 2 * parseInt(this.img.height) }

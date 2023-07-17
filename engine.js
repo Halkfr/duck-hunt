@@ -88,6 +88,10 @@ async function manageLevel() {
         await sleep(1000)
     }
 
+    return new Promise((resolve, reject) => {
+          resolve('Level finished');
+      });
+
     function getRandomInt(max) {
         return Math.floor(Math.random() * max);
     }
@@ -124,7 +128,6 @@ async function manageLevel() {
 import { resetTimer } from '/menu.js'
 
 async function manageGame() {
-    fillInterfaceElements()
     resetTimer()
     while (true) {
         fillInterfaceElements()
