@@ -56,7 +56,10 @@ export let actors = []
 async function manageLevel() {
     let ducksReleased = 0, ducksBatchSize = 0
 
-    while (ducksReleased < 10) {
+    while (ducksReleased <= 10) {
+
+        console.log("ducksReleased: ", ducksReleased, "ducksBatchSize: ", ducksBatchSize)
+
         if (startMenu.classList.contains("hidden") && modalMenu.classList.contains("hidden")) {
 
             if (document.querySelectorAll('#duck').length == 0) {
@@ -68,6 +71,10 @@ async function manageLevel() {
                 createBullets(bulletsCount)
 
                 console.log(bulletsCount)
+                if (ducksReleased === 10){
+                    fillInterfaceElements()
+                    ducksReleased = 0
+                }
                 if (ducksBatchSize <= 10 - ducksReleased) {
                     createDucksBanch(ducksBatchSize)
                 }
