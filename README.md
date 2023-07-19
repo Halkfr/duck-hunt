@@ -28,7 +28,6 @@ TODO:
 TOMORROW TODO:
 1. add game over
 2. add level count
-3. change red and green ducks
 
 
 FIX:

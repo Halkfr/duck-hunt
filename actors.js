@@ -118,6 +118,11 @@ class Actor {
     getRelativeFilepath(path) {
         return path.replace(/\w+:\/\/[\d|\.|:]+/g, '.')
     }
+
+    addToScore(score) {
+        let scoreElement = Number(document.getElementById("score-number").innerHTML)
+        document.getElementById("score-number").innerHTML = (scoreElement + score).toString().padStart(6, "0")
+    }
 }
 
 export class Duck extends Actor {
@@ -188,8 +193,8 @@ export class Duck extends Actor {
                     this.#setAnimation(aim, 'duck-fly-away.gif')
                     aim = { x: parseInt(this.img.style.left), y: 0 - 2 * parseInt(this.img.height) }
 
-                    this.#editDuckIcon('./sprites/interface/hit-duck-saved.png', 'duck-saved')
-                    this.#addToScore(200) // change score later
+                    this.#editDuckIcon('./sprites/interface/hit-duck-killed.png', 'duck-killed')
+                    // super.addToScore(200) // change score later
 
                     this.escape = true
                 }
@@ -237,8 +242,8 @@ export class Duck extends Actor {
 
     kill = () => {
         if (this.alive && !this.escape) {
-            this.#editDuckIcon('./sprites/interface/hit-duck-killed.png', 'duck-killed')
-            this.#addToScore(5) // change score later
+            this.#editDuckIcon('./sprites/interface/hit-duck-saved.png', 'duck-saved')
+            super.addToScore(200) // change score later
 
             this.alive = false
         }
@@ -257,11 +262,6 @@ export class Duck extends Actor {
         let duckIcon = document.querySelector('[id^="hit-duck-"]')
         duckIcon.src = src
         duckIcon.id = id
-    }
-
-    #addToScore = (score) => {
-        let scoreElement = Number(document.getElementById("score-number").innerHTML)
-        document.getElementById("score-number").innerHTML = (scoreElement + score).toString().padStart(6, "0")
     }
 }
 
@@ -327,17 +327,12 @@ export class Hunter extends Actor {
         if (this.alive) {
             console.log('hunter scared')
             cancelAnimationFrame(this.animationFrameId) // instead add hunter animation
-            this.#addToScore(1000) // change score later
+            super.addToScore(1000) // change score later
             this.alive = false
         }
     }
 
     #generateAim() {
         return { x: super.randomIntFromInterval(this.moveArea.leftX, this.moveArea.rightX) };
-    }
-
-    #addToScore = (score) => {
-        let scoreElement = Number(document.getElementById("score-number").innerHTML)
-        document.getElementById("score-number").innerHTML = (scoreElement + score).toString().padStart(6, "0")
     }
 }
