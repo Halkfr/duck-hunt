@@ -33,11 +33,12 @@ document.onkeydown = (event) => {
             b.classList = "arrow-hidden"
             gameMode = "Classic"
         }
-        if (event.key === "ArrowDown") {
-            b.classList = "arrow"
-            a.classList = "arrow-hidden"
-            gameMode = "Angry Birds"
-        }
+        //to to remove after adding angry birds game mode
+        // if (event.key === "ArrowDown") {
+        //     b.classList = "arrow"
+        //     a.classList = "arrow-hidden"
+        //     gameMode = "Angry Birds"
+        // }
         if (event.key === "Enter") {
             startMenu.classList.add("hidden")
             console.log(gameMode)

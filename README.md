@@ -25,6 +25,5 @@ TODO:
 7. Create hunter escape animation
 8. If exit from start menu timer starts going on
 9. Create shooting animation or maybe create bullets timeout
-10. Bug: after duck fly away escape triggers duck icon score and adds new saved duck!
-11. Game could pause on a screen shot
-12. Timer is still working laggy
+10. Game could pause on a screen shot
+11. Timer is still working laggy

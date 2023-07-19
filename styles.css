@@ -437,3 +437,8 @@ body {
         height: 15vh;
     }
 }
+
+/*to remove after adding  angry birds game mode*/
+#game-mode-B {
+    color:rgb(124, 123, 123);
+}
