@@ -29,4 +29,3 @@ TODO:
 11. Timer is still working laggy
 
 1. Bug with timer when menu open
-2. Force ducks fly away when no bullets left
