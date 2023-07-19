@@ -46,8 +46,7 @@ const countProps = () => {
     return { duck: { top: duckTop, left: duckLeft, width: duckWidth, moveArea: duckMoveArea }, hunter: { top: hunterTop, left: hunterLeft, width: hunterWidth, moveArea: hunterMoveArea } }
 }
 
-import { Duck } from '/actors.js'
-import { Hunter } from '/actors.js'
+import { Duck, Hunter } from '/actors.js'
 
 export let actors = []
 
@@ -56,14 +55,10 @@ async function manageLevel() {
 
     while (ducksReleased <= 10) {
 
-        console.log("ducksReleased: ", ducksReleased, "ducksBatchSize: ", ducksBatchSize)
-
         if (startMenu.classList.contains("hidden") && modalMenu.classList.contains("hidden")) {
 
             if (document.querySelectorAll('#duck').length == 0) {
                 ducksBatchSize = getRandomInt(3) + 1
-
-                console.log('ducks batch', ducksBatchSize)
 
                 bulletsCount = 3
                 createBullets(bulletsCount)
@@ -75,7 +70,6 @@ async function manageLevel() {
                 }
                 if (ducksBatchSize <= 10 - ducksReleased) {
                     createDucksBanch(ducksBatchSize)
-                    console.log('actors', actors)
                 }
                 else {
                     createDucksBanch(10 - ducksReleased)
@@ -125,11 +119,11 @@ async function manageLevel() {
     }
 }
 
-import { resetTimer } from '/menu.js'
+import {timer} from './menu.js'
 
 export async function manageGame() {
     deleteActors()
-    resetTimer()
+    timer.resetTimer()
     while (true) {
         fillInterfaceElements()
         await manageLevel()

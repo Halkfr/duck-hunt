@@ -27,5 +27,4 @@ TODO:
 9. Create shooting animation or maybe create bullets timeout
 10. Game could pause on a screen shot
 11. Timer is still working laggy
-
-1. Bug with timer when menu open
+12. Refactor timer (we have two in actors.js and in menu.js)

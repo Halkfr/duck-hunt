@@ -8,6 +8,57 @@ function debounce(func, delay) {
     };
 }
 
+class Timer {
+    constructor() {
+        this.timer = document.querySelector("#timer")
+        this.elapsedTime = 0
+        this.pauseTime = 0
+        this.time = { secs: 0, mins: 0 }
+        this.intervalId = setInterval(this.#updateTime, 1000);
+
+        this.startTime = Date.now() - this.elapsedTime
+    }
+
+    pauseTimer = () => {
+        this.pauseTime = Date.now()
+        clearInterval(this.intervalId)
+    }
+
+
+    continueTimer = () => {
+        let timeDifference = Date.now() - this.pauseTime
+        this.startTime += timeDifference
+        this.intervalId = setInterval(this.#updateTime, 100)
+    }
+
+    resetTimer = () => {
+        this.elapsedTime = 0
+        this.pauseTime = 0
+        this.time = { secs: 0, mins: 0 }
+        clearInterval(this.intervalId)
+        this.intervalId = setInterval(this.#updateTime, 1000);
+
+        this.startTime = Date.now() - this.elapsedTime
+
+        this.#updateTime()
+    }
+
+    #updateTime = () => {
+        this.elapsedTime = Date.now() - this.startTime
+
+        this.time.secs = Math.floor(this.elapsedTime / 1000 % 60)
+        this.time.mins = Math.floor(this.elapsedTime / (1000 * 60) % 60)
+
+        this.time.secs = format(this.time.secs)
+        this.time.mins = format(this.time.mins)
+        this.timer.textContent = `${this.time.mins}:${this.time.secs}`
+
+        function format(unit) {
+            return (("0") + unit).length > 2 ? unit : "0" + unit
+        }
+    }
+}
+
 import { actors } from "./engine.js"
 
 const overlay = document.body.querySelector('#overlay')
@@ -15,9 +66,11 @@ const menu = document.body.querySelector('#menu')
 const continueButton = menu.querySelector('#continue-button')
 const restartButton = menu.querySelector('#restart-button')
 
+export const timer = new Timer()
+
 window.onload = function startingMenu() {
     pauseActors()
-    pauseTimer()
+    timer.pauseTimer()
 }
 
 let gameMode = "Classic"
@@ -69,13 +122,13 @@ overlay.addEventListener('click', (e) => {
 
 function continueGame() {
     closeMenu()
-    continueTimer()
+    timer.continueTimer()
     continueActors()
 }
 
 function pauseGame() {
     openMenu()
-    pauseTimer()
+    timer.pauseTimer()
     pauseActors()
 }
 
@@ -101,7 +154,7 @@ import { manageGame } from '/engine.js'
 
 restartButton.addEventListener('click', () => {
     closeMenu()
-    resetTimer()
+    timer.resetTimer()
     manageGame()
 })
 
@@ -115,49 +168,3 @@ function openMenu() {
     menu.classList.remove('hidden')
 }
 
-const timer = document.querySelector("#timer")
-let elapsedTime = 0
-let pauseTime = 0
-let time = { secs: 0, mins: 0 }
-let intervalId = setInterval(updateTime, 1000)
-
-let startTime = Date.now() - elapsedTime
-
-function pauseTimer() {
-    pauseTime = Date.now()
-    clearInterval(intervalId)
-    console.log('pause timer')
-}
-
-function continueTimer() {
-    let timeDifference = Date.now() - pauseTime
-    startTime += timeDifference
-    intervalId = setInterval(updateTime, 100)
-    console.log('continue timer')
-}
-
-export function resetTimer() {
-    elapsedTime = 0
-    pauseTime = 0
-    time = { secs: 0, mins: 0 }
-    intervalId = setInterval(updateTime, 1000)
-
-    startTime = Date.now() - elapsedTime
-
-    updateTime()
-}
-
-function updateTime() {
-    elapsedTime = Date.now() - startTime
-
-    time.secs = Math.floor(elapsedTime / 1000 % 60)
-    time.mins = Math.floor(elapsedTime / (1000 * 60) % 60)
-
-    time.secs = format(time.secs)
-    time.mins = format(time.mins)
-    timer.textContent = `${time.mins}:${time.secs}`
-
-    function format(unit) {
-        return (("0") + unit).length > 2 ? unit : "0" + unit
-    }
-}
