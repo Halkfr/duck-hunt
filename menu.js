@@ -154,8 +154,14 @@ import { manageGame } from '/engine.js'
 
 restartButton.addEventListener('click', () => {
     closeMenu()
+    clearScore()
     timer.resetTimer()
     manageGame()
+
+    function clearScore() {
+        let score = document.body.querySelector('#score-number')
+        score.innerHTML = '000000'
+    }
 })
 
 function closeMenu() {

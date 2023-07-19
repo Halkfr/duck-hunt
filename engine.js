@@ -242,7 +242,6 @@ function bulletsLeft() {
 
     function releaseDucks() {
         actors.forEach(actor => {
-            console.log('actor.constructor.name', actor.constructor.name)
             if (actor.constructor.name == 'Duck') {
                 console.log('release duck')
                 actor.release()
