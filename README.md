@@ -27,3 +27,6 @@ TODO:
 9. Create shooting animation or maybe create bullets timeout
 10. Game could pause on a screen shot
 11. Timer is still working laggy
+
+1. Bug with timer when menu open
+2. Force ducks fly away when no bullets left
