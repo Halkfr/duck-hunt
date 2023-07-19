@@ -178,13 +178,15 @@ export class Duck extends Actor {
 
         const flyAway = () => {
             if (this.alive) {
-                this.#setAnimation(aim, 'duck-fly-away.gif')
-                aim = { x: parseInt(this.img.style.left), y: 0 - 2 * parseInt(this.img.height) }
+                if (this.excape == false) {
+                    this.#setAnimation(aim, 'duck-fly-away.gif')
+                    aim = { x: parseInt(this.img.style.left), y: 0 - 2 * parseInt(this.img.height) }
 
-                this.#editDuckIcon('./sprites/interface/hit-duck-saved.png', 'duck-saved')
-                this.#addToScore(200) // change score later
+                    this.#editDuckIcon('./sprites/interface/hit-duck-saved.png', 'duck-saved')
+                    this.#addToScore(200) // change score later
 
-                this.escape = true
+                    this.escape = true
+                }
             }
         }
 

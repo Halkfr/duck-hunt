@@ -3,8 +3,6 @@ const modalMenu = document.body.querySelector('#menu')
 export let bulletsCount = 3
 
 function fillInterfaceElements() {
-    const shotElement = document.body.querySelector('#shot')
-    shotElement.innerHTML = ''
     createBullets(bulletsCount)
     const hitElement = document.body.querySelector('#hit')
     hitElement.innerHTML = ''
