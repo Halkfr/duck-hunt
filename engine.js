@@ -1,3 +1,28 @@
+async function preloadImages() {
+    const preloadImage = (src) => {
+        var img = new Image()
+        img.src = src
+    }
+
+    preloadImage('./sprites/duck/duck-down.gif')
+    preloadImage('./sprites/duck/duck-fly-away.gif')
+    preloadImage('./sprites/duck/duck-hit.png')
+    preloadImage('./sprites/duck/duck-left-up.gif')
+    preloadImage('./sprites/duck/duck-left.gif')
+    preloadImage('./sprites/duck/duck-right-up.gif')
+    preloadImage('./sprites/duck/duck-right.gif')
+
+    preloadImage('./sprites/duck-brown/duck-down.gif')
+    preloadImage('./sprites/duck-brown/duck-fly-away.gif')
+    preloadImage('./sprites/duck-brown/duck-hit.png')
+    preloadImage('./sprites/duck-brown/duck-left-up.gif')
+    preloadImage('./sprites/duck-brown/duck-left.gif')
+    preloadImage('./sprites/duck-brown/duck-right-up.gif')
+    preloadImage('./sprites/duck-brown/duck-right.gif')
+}
+
+preloadImages()
+
 const startMenu = document.body.querySelector('#start-menu')
 const modalMenu = document.body.querySelector('#menu')
 export let bulletsCount = 3
@@ -120,7 +145,7 @@ async function manageLevel() {
     }
 }
 
-import {timer} from './menu.js'
+import { timer } from './menu.js'
 
 export async function manageGame() {
     deleteActors()
