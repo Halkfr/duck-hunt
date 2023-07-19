@@ -19,12 +19,15 @@ Creature:
 TODO: 
 1. Change speed of the duck according to screen size (PC/mobile)? Make hitbox bigger?
 2. Improve Duck generateAim function
-4. Add top score to cookies
-5. Timer works correctly if window lost focus and continue is pressed
-6. If exiting window in continue menu and staring game with esc button timer doens't work correctly
-7. Create hunter escape animation
-8. If exit from start menu timer starts going on
-9. Create shooting animation or maybe create bullets timeout
-10. Game could pause on a screen shot
-11. Timer is still working laggy
-12. Refactor timer (we have two in actors.js and in menu.js)
+3. Add top score to cookies
+4. Timer works correctly if window lost focus and continue is pressed
+5. Create hunter escape animation
+6. Create shooting animation or maybe create bullets timeout
+7. Refactor timer (we have two in actors.js and in menu.js)
+
+
+FIX:
+1. If exiting window in continue menu and staring game with esc button timer doens't work correctly
+2. Timer is still working laggy
+3. Game could pause on a screen shot
+4. Fix resize (actors drop images after screen resize)
