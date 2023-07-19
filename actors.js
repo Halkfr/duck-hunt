@@ -178,7 +178,7 @@ export class Duck extends Actor {
 
         const flyAway = () => {
             if (this.alive) {
-                if (this.excape == false) {
+                if (!this.escape) {
                     this.#setAnimation(aim, 'duck-fly-away.gif')
                     aim = { x: parseInt(this.img.style.left), y: 0 - 2 * parseInt(this.img.height) }
 
