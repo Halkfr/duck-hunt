@@ -25,6 +25,11 @@ TODO:
 6. Create shooting animation or maybe create bullets timeout
 7. Refactor timer (we have two in actors.js and in menu.js)
 
+TOMORROW TODO:
+1. add game over
+2. add level count
+3. change red and green ducks
+
 
 FIX:
 1. If exiting window in continue menu and staring game with esc button timer doens't work correctly
