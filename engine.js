@@ -4,6 +4,8 @@ async function preloadImages() {
         img.src = src
     }
 
+    preloadImage('./sprites/background-duck-escape.png')
+
     preloadImage('./sprites/duck/duck-down.gif')
     preloadImage('./sprites/duck/duck-fly-away.gif')
     preloadImage('./sprites/duck/duck-hit.png')
