@@ -128,6 +128,7 @@ export class Duck extends Actor {
         this.animationFrameId = null
         this.duckHiddenPositionTop = top
         this.released = false
+        this.escape = false
     }
 
     #fly(speed) {

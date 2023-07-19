@@ -90,6 +90,7 @@ async function manageLevel() {
     }
 
     function createDucksBanch(n) {
+        defaultBackground()
         deleteActors()
         const props = countProps()
 
@@ -130,6 +131,16 @@ export async function manageGame() {
     }
 }
 
+function releaseBackground() {
+    document.getElementById("background").style.backgroundImage = "url(./sprites/background-duck-escape.png)"
+    document.getElementById("bg-top").style.backgroundColor = "#ffcccc"
+}
+
+function defaultBackground() {
+    document.getElementById("background").style.backgroundImage = "url(./sprites/background.png)"
+    document.getElementById("bg-top").style.backgroundColor = "#33ccff"
+}
+
 manageGame()
 
 document.querySelector("#grass").addEventListener("mousedown", bulletsLeft);
@@ -155,6 +166,18 @@ const observer = new MutationObserver(function (mutationsList, observer) {
 
 observer.observe(targetNode, config);
 
+setInterval(areDucksEscaping, 100)
+
+function areDucksEscaping() {
+    actors.forEach(actor => {
+        if (actor.constructor.name == 'Duck') {
+            if (actor.escape) {
+                releaseBackground()
+            }
+        }
+    });
+}
+
 function bulletsLeft() {
     if (modalMenu.classList.contains("hidden") && startMenu.classList.contains("hidden")) {
         if (bulletsCount > 0) {
@@ -167,9 +190,25 @@ function bulletsLeft() {
                 divElement.innerHTML = 0;
                 divElement.id = 'bullets-left';
                 document.querySelector("#shot").appendChild(divElement);
-                releaseDucks()
+                if (!isAnyDuckAlive()) {
+                    releaseDucks()
+                    releaseBackground()
+                }
             }
         }
+    }
+
+    function isAnyDuckAlive() {
+        let bool = true
+        actors.forEach(actor => {
+            if (actor.constructor.name == 'Duck') {
+                if (actor.alive) {
+                    console.log("some ducks are alive")
+                    bool = false
+                }
+            }
+        });
+        return bool
     }
 
     function releaseDucks() {
