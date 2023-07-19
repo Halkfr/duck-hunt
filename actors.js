@@ -127,6 +127,7 @@ export class Duck extends Actor {
         this.#fly(speed)
         this.animationFrameId = null
         this.duckHiddenPositionTop = top
+        this.released = false
     }
 
     #fly(speed) {
@@ -135,6 +136,10 @@ export class Duck extends Actor {
         let animationFrameId = null
 
         const flyStep = () => {
+            if (this.released) {
+                flyAway()
+            }
+
             if (!this.alive) {
                 if (!this.isFalling) {
                     this.#setAnimation(aim, 'duck-hit.png')
@@ -236,6 +241,10 @@ export class Duck extends Actor {
 
             this.alive = false
         }
+    }
+
+    release = () => {
+        this.released = true
     }
 
     #generateAim() {

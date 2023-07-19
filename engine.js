@@ -173,9 +173,19 @@ function bulletsLeft() {
                 divElement.innerHTML = 0;
                 divElement.id = 'bullets-left';
                 document.querySelector("#shot").appendChild(divElement);
-                // TODO: if no bullets all ducks fly away
+                releaseDucks()
             }
         }
+    }
+
+    function releaseDucks() {
+        actors.forEach(actor => {
+            console.log('actor.constructor.name', actor.constructor.name)
+            if (actor.constructor.name == 'Duck') {
+                console.log('release duck')
+                actor.release()
+            }
+        });
     }
 }
 
