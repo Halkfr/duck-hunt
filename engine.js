@@ -156,14 +156,16 @@ export async function manageGame() {
     }
 }
 
-function releaseBackground() {
-    document.getElementById("background").style.backgroundImage = "url(./sprites/background-duck-escape.png)"
-    document.getElementById("bg-top").style.backgroundColor = "#ffcccc"
+function defaultBackground() {
+    document.getElementById("background-default").classList.remove("hidden")
+    document.getElementById("background-duck-escape").classList.add("hidden")
+    document.getElementById("bg-top").style.backgroundColor = "#33ccff"
 }
 
-function defaultBackground() {
-    document.getElementById("background").style.backgroundImage = "url(./sprites/background.png)"
-    document.getElementById("bg-top").style.backgroundColor = "#33ccff"
+function releaseBackground() {
+    document.getElementById("background-default").classList.add("hidden")
+    document.getElementById("background-duck-escape").classList.remove("hidden")
+    document.getElementById("bg-top").style.backgroundColor = "#ffcccc"
 }
 
 manageGame()
