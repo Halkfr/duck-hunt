@@ -29,9 +29,6 @@ TOMORROW TODO:
 1. add game over
 2. add level count
 
-
 FIX:
-1. If exiting window in continue menu and staring game with esc button timer doens't work correctly
-2. Timer is still working laggy
-3. Game could pause on a screen shot
-4. Fix resize (actors drop images after screen resize)
+1. Game could pause on a screen shot
+2. Fix resize (actors drop images after screen resize)

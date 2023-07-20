@@ -25,6 +25,7 @@ class Timer {
             this.pauseTime = Date.now()
             clearInterval(this.intervalId)
             this.intervalClosed = true
+            console.log("pause", this.pauseTime)
         }
     }
 
@@ -34,6 +35,7 @@ class Timer {
         this.startTime += timeDifference
         this.intervalId = setInterval(this.#updateTime, 100)
         this.intervalClosed = false
+        console.log("continue", timeDifference, this.startTime)
     }
 
     resetTimer = () => {
@@ -113,11 +115,13 @@ window.addEventListener('blur', function () {
 
 // menu open/close
 document.addEventListener('keydown', debounce((e) => {
-    if (e.key === 'Escape') {
-        if (menu.classList.contains('hidden')) {
-            pauseGame();
-        } else {
-            continueGame();
+    if (document.getElementById("start-menu").classList.contains("hidden")) {
+        if (e.key === 'Escape') {
+            if (menu.classList.contains('hidden')) {
+                pauseGame();
+            } else {
+                continueGame();
+            }
         }
     }
 }, 200));
