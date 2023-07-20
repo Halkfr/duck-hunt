@@ -27,7 +27,6 @@ TODO:
 
 TOMORROW TODO:
 1. add game over
-2. add level count
 
 FIX:
 1. Game could pause on a screen shot

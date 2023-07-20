@@ -25,7 +25,6 @@ class Timer {
             this.pauseTime = Date.now()
             clearInterval(this.intervalId)
             this.intervalClosed = true
-            console.log("pause", this.pauseTime)
         }
     }
 
@@ -35,7 +34,6 @@ class Timer {
         this.startTime += timeDifference
         this.intervalId = setInterval(this.#updateTime, 100)
         this.intervalClosed = false
-        console.log("continue", timeDifference, this.startTime)
     }
 
     resetTimer = () => {

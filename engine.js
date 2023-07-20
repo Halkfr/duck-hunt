@@ -77,8 +77,11 @@ import { Duck, Hunter } from '/actors.js'
 
 export let actors = []
 
-async function manageLevel() {
+export async function manageGame() {
     let ducksReleased = 0, ducksBatchSize = 0
+    fillInterfaceElements()
+    deleteActors()
+    timer.resetTimer()
 
     while (ducksReleased <= 10) {
 
@@ -90,10 +93,10 @@ async function manageLevel() {
                 bulletsCount = 3
                 createBullets(bulletsCount)
 
-                console.log(bulletsCount)
                 if (ducksReleased === 10) {
                     fillInterfaceElements()
                     ducksReleased = 0
+                    setRound()
                 }
                 if (ducksBatchSize <= 10 - ducksReleased) {
                     createDucksBanch(ducksBatchSize)
@@ -117,7 +120,7 @@ async function manageLevel() {
     }
 
     function createDucksBanch(n) {
-        defaultBackground()
+        setDefaultBackground()
         deleteActors()
         const props = countProps()
 
@@ -145,32 +148,33 @@ async function manageLevel() {
 
         ducksReleased += n
     }
-}
 
-import { timer } from './menu.js'
-
-export async function manageGame() {
-    deleteActors()
-    timer.resetTimer()
-    while (true) {
-        fillInterfaceElements()
-        await manageLevel()
+    function setRound() {
+        const round = document.querySelector('#round')
+        round.innerHTML = Number(round.innerHTML) + 1
+        console.log('inner html', round.innerHTML)
     }
 }
 
-function defaultBackground() {
+manageGame()
+
+import { timer } from './menu.js'
+
+function setDefaultBackground() {
     document.getElementById("background-default").classList.remove("hidden")
     document.getElementById("background-duck-escape").classList.add("hidden")
     document.getElementById("bg-top").style.backgroundColor = "#33ccff"
+
+    document.getElementById("round").style.color = 'rgb(133, 222, 252)'
 }
 
-function releaseBackground() {
+function setReleaseBackground() {
     document.getElementById("background-default").classList.add("hidden")
     document.getElementById("background-duck-escape").classList.remove("hidden")
     document.getElementById("bg-top").style.backgroundColor = "#ffcccc"
-}
 
-manageGame()
+    document.getElementById("round").style.color = 'rgb(255, 222, 222)'
+}
 
 document.querySelector("#grass").addEventListener("mousedown", bulletsLeft);
 
@@ -201,7 +205,7 @@ function areDucksEscaping() {
     actors.forEach(actor => {
         if (actor.constructor.name == 'Duck') {
             if (actor.escape) {
-                releaseBackground()
+                setReleaseBackground()
             }
         }
     });
@@ -221,7 +225,7 @@ function bulletsLeft() {
                 document.querySelector("#shot").appendChild(divElement);
                 if (!isAnyDuckAlive()) {
                     releaseDucks()
-                    releaseBackground()
+                    setReleaseBackground()
                 }
             }
         }
