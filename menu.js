@@ -15,13 +15,17 @@ class Timer {
         this.pauseTime = 0
         this.time = { secs: 0, mins: 0 }
         this.intervalId = setInterval(this.#updateTime, 1000);
+        this.intervalClosed = false
 
         this.startTime = Date.now() - this.elapsedTime
     }
 
     pauseTimer = () => {
-        this.pauseTime = Date.now()
-        clearInterval(this.intervalId)
+        if (!this.intervalClosed) {
+            this.pauseTime = Date.now()
+            clearInterval(this.intervalId)
+            this.intervalClosed = true
+        }
     }
 
 
@@ -29,6 +33,7 @@ class Timer {
         let timeDifference = Date.now() - this.pauseTime
         this.startTime += timeDifference
         this.intervalId = setInterval(this.#updateTime, 100)
+        this.intervalClosed = false
     }
 
     resetTimer = () => {
@@ -37,6 +42,7 @@ class Timer {
         this.time = { secs: 0, mins: 0 }
         clearInterval(this.intervalId)
         this.intervalId = setInterval(this.#updateTime, 1000);
+        this.intervalClosed = false
 
         this.startTime = Date.now() - this.elapsedTime
 
