@@ -83,7 +83,7 @@ export async function manageGame() {
     deleteActors()
     timer.resetTimer()
 
-    while (ducksReleased <= 10) {
+    while (ducksReleased <= 10 && !isGameOver()) {
 
         if (startMenu.classList.contains("hidden") && modalMenu.classList.contains("hidden")) {
 
@@ -109,11 +109,27 @@ export async function manageGame() {
 
         const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
         await sleep(1000)
+
+        if (isGameOver()) {
+            console.log("game over")
+            let round = document.getElementById("round")
+            round.innerText = "game over"
+            round.style.color = '#000000'
+        }
     }
 
     return new Promise((resolve, reject) => {
         resolve('Level finished');
     });
+
+    function isGameOver() {
+        let bool = false, hit = document.getElementById("hit")
+        const duckDownElements = hit.querySelectorAll('#duck-killed')
+        if (duckDownElements.length >= 3) {
+            bool = true
+        }
+        return bool
+    }
 
     function getRandomInt(max) {
         return Math.floor(Math.random() * max);
@@ -169,11 +185,13 @@ function setDefaultBackground() {
 }
 
 function setReleaseBackground() {
-    document.getElementById("background-default").classList.add("hidden")
-    document.getElementById("background-duck-escape").classList.remove("hidden")
-    document.getElementById("bg-top").style.backgroundColor = "#ffcccc"
+    if (!isGameOver()) {
+        document.getElementById("background-default").classList.add("hidden")
+        document.getElementById("background-duck-escape").classList.remove("hidden")
+        document.getElementById("bg-top").style.backgroundColor = "#ffcccc"
 
-    document.getElementById("round").style.color = 'rgb(255, 222, 222)'
+        document.getElementById("round").style.color = 'rgb(255, 222, 222)'
+    }
 }
 
 document.querySelector("#grass").addEventListener("mousedown", bulletsLeft);
