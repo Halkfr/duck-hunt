@@ -114,7 +114,7 @@ export async function manageGame() {
             console.log("game over")
             let round = document.getElementById("round")
             round.innerText = "game over"
-            round.style.color = '#000000'
+            round.style.fontFamily = "duckhunt"
         }
     }
 
