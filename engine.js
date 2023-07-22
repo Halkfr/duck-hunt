@@ -27,6 +27,7 @@ preloadImages()
 
 const startMenu = document.body.querySelector('#start-menu')
 const modalMenu = document.body.querySelector('#menu')
+
 export let bulletsCount = 3
 
 function fillInterfaceElements() {
@@ -59,7 +60,7 @@ function createElement(src, id, classes) {
     return img
 }
 
-function isGameOver() {
+export function isGameOver() {
     let bool = false, hit = document.getElementById("hit")
     const duckDownElements = hit.querySelectorAll('#duck-killed')
     if (duckDownElements.length >= 3) {
@@ -77,11 +78,21 @@ function gameOver() {
 
     document.getElementById("round-text").classList.add("hidden")
 
-    setTimeout(() => {
-        location.reload()
-    }, 5 * 60 * 10)
+}
 
-    // loadDefaultGame()
+import { clearScore } from './menu.js'
+
+export function loadDefaultGame() {
+    bulletsCount = 3
+    clearScore()
+
+    document.getElementById("game-over").remove()
+    document.getElementById("round-text").classList.remove("hidden")
+    document.getElementById("round-text").innerText = 1
+    document.getElementById('start-menu').classList.remove("hidden")
+
+    manageGame()
+    timer.pauseTimer()
 }
 
 const countProps = () => {
@@ -137,6 +148,10 @@ export async function manageGame() {
 
         if (isGameOver()) {
             gameOver()
+            // if button menu not open
+            setTimeout(() => {
+                loadDefaultGame()
+            }, 5 * 60 * 10)
         }
     }
 

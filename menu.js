@@ -75,7 +75,7 @@ const restartButton = menu.querySelector('#restart-button')
 export const timer = new Timer()
 
 window.onload = function startingMenu() {
-    pauseActors()
+    // pauseActors()
     timer.pauseTimer()
 }
 
@@ -100,14 +100,17 @@ document.onkeydown = (event) => {
         // }
         if (event.key === "Enter") {
             startMenu.classList.add("hidden")
-            continueGame()
+            timer.continueTimer()
+            // continueGame()
         }
     }
 }
 
 //window lost focus
 window.addEventListener('blur', function () {
-    pauseGame()
+    if (document.getElementById('start-menu').classList.contains("hidden")) {
+        pauseGame()
+    }
 });
 
 // menu open/close
@@ -128,9 +131,9 @@ overlay.addEventListener('click', (e) => {
 })
 
 function continueGame() {
-    closeMenu()
-    timer.continueTimer()
-    continueActors()
+        closeMenu()
+        timer.continueTimer()
+        continueActors()
 }
 
 function pauseGame() {
@@ -165,7 +168,7 @@ function restartGame() {
     timer.resetTimer()
 }
 
-function clearScore() {
+export function clearScore() {
     let score = document.body.querySelector('#score-number')
     score.innerHTML = '000000'
 }
