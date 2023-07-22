@@ -157,15 +157,12 @@ continueButton.addEventListener('click', () => {
 
 // start new game
 
-import { manageGame } from '/engine.js'
-
 restartButton.addEventListener('click', restartGame)
 
 function restartGame() {
     closeMenu()
     clearScore()
     timer.resetTimer()
-    manageGame()
 }
 
 function clearScore() {
