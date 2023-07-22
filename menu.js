@@ -100,7 +100,6 @@ document.onkeydown = (event) => {
         // }
         if (event.key === "Enter") {
             startMenu.classList.add("hidden")
-            console.log(gameMode)
             continueGame()
         }
     }
@@ -160,17 +159,19 @@ continueButton.addEventListener('click', () => {
 
 import { manageGame } from '/engine.js'
 
-restartButton.addEventListener('click', () => {
+restartButton.addEventListener('click', restartGame)
+
+function restartGame() {
     closeMenu()
     clearScore()
     timer.resetTimer()
     manageGame()
+}
 
-    function clearScore() {
-        let score = document.body.querySelector('#score-number')
-        score.innerHTML = '000000'
-    }
-})
+function clearScore() {
+    let score = document.body.querySelector('#score-number')
+    score.innerHTML = '000000'
+}
 
 function closeMenu() {
     overlay.classList.add('hidden')

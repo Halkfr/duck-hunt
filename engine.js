@@ -59,6 +59,31 @@ function createElement(src, id, classes) {
     return img
 }
 
+function isGameOver() {
+    let bool = false, hit = document.getElementById("hit")
+    const duckDownElements = hit.querySelectorAll('#duck-killed')
+    if (duckDownElements.length >= 3) {
+        bool = true
+    }
+    return bool
+}
+
+function gameOver() {
+    let gameOverElement = document.createElement("div")
+    gameOverElement.id = "game-over"
+    gameOverElement.classList.add("game-center-text")
+    gameOverElement.innerText = "game over"
+    document.body.appendChild(gameOverElement)
+
+    document.getElementById("round-text").classList.add("hidden")
+
+    setTimeout(() => {
+        location.reload()
+    }, 5 * 60 * 10)
+
+    // loadDefaultGame()
+}
+
 const countProps = () => {
     // background.png size 1265x769
     const kWidth = window.innerWidth / 1265, kHeight = window.innerHeight / 769, k = kHeight < kWidth ? kHeight : kWidth
@@ -96,7 +121,7 @@ export async function manageGame() {
                 if (ducksReleased === 10) {
                     fillInterfaceElements()
                     ducksReleased = 0
-                    setRound()
+                    setRoundText()
                 }
                 if (ducksBatchSize <= 10 - ducksReleased) {
                     createDucksBanch(ducksBatchSize)
@@ -111,25 +136,13 @@ export async function manageGame() {
         await sleep(1000)
 
         if (isGameOver()) {
-            console.log("game over")
-            let round = document.getElementById("round")
-            round.innerText = "game over"
-            round.style.fontFamily = "duckhunt"
+            gameOver()
         }
     }
 
     return new Promise((resolve, reject) => {
         resolve('Level finished');
     });
-
-    function isGameOver() {
-        let bool = false, hit = document.getElementById("hit")
-        const duckDownElements = hit.querySelectorAll('#duck-killed')
-        if (duckDownElements.length >= 3) {
-            bool = true
-        }
-        return bool
-    }
 
     function getRandomInt(max) {
         return Math.floor(Math.random() * max);
@@ -165,8 +178,8 @@ export async function manageGame() {
         ducksReleased += n
     }
 
-    function setRound() {
-        const round = document.querySelector('#round')
+    function setRoundText() {
+        const round = document.querySelector('#round-text')
         round.innerHTML = Number(round.innerHTML) + 1
         console.log('inner html', round.innerHTML)
     }
@@ -181,17 +194,15 @@ function setDefaultBackground() {
     document.getElementById("background-duck-escape").classList.add("hidden")
     document.getElementById("bg-top").style.backgroundColor = "#33ccff"
 
-    document.getElementById("round").style.color = 'rgb(133, 222, 252)'
+    document.getElementById("round-text").style.color = 'rgb(133, 222, 252)'
 }
 
 function setReleaseBackground() {
-    if (!isGameOver()) {
-        document.getElementById("background-default").classList.add("hidden")
-        document.getElementById("background-duck-escape").classList.remove("hidden")
-        document.getElementById("bg-top").style.backgroundColor = "#ffcccc"
+    document.getElementById("background-default").classList.add("hidden")
+    document.getElementById("background-duck-escape").classList.remove("hidden")
+    document.getElementById("bg-top").style.backgroundColor = "#ffcccc"
 
-        document.getElementById("round").style.color = 'rgb(255, 222, 222)'
-    }
+    document.getElementById("round-text").style.color = 'rgb(255, 222, 222)'
 }
 
 document.querySelector("#grass").addEventListener("mousedown", bulletsLeft);
@@ -222,7 +233,7 @@ setInterval(areDucksEscaping, 100)
 function areDucksEscaping() {
     actors.forEach(actor => {
         if (actor.constructor.name == 'Duck') {
-            if (actor.escape) {
+            if (actor.escape && !isGameOver()) {
                 setReleaseBackground()
             }
         }
@@ -243,7 +254,6 @@ function bulletsLeft() {
                 document.querySelector("#shot").appendChild(divElement);
                 if (!isAnyDuckAlive()) {
                     releaseDucks()
-                    setReleaseBackground()
                 }
             }
         }

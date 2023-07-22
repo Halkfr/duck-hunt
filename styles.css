@@ -262,18 +262,25 @@ body {
     width: 90%;
 } */
 
-#round {
+.game-center-text {
     z-index: 1;
     position: absolute;
     left: 50%;
     top: 50%;
     width: fit-content;
     height: fit-content;
-    font-family: 'cloud';
     font-size: xx-large;
-    color:rgb(133, 222, 252);
+    color: rgb(133, 222, 252);
     align-self: center;
     transform: scale(3) translate(-17%, -50%);
+}
+
+#round-text {
+    font-family: 'cloud';
+}
+
+#game-over {
+    font-family: 'duckhunt';
 }
 
 .flex-container {
