@@ -24,7 +24,7 @@ Litvintsev Anton @Antosha7
 
 ## Usage
   
-To run thegame on local machine:
+To run the game on local machine:
 
 - Download the repository
 
