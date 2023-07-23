@@ -65,7 +65,7 @@ class Timer {
     }
 }
 
-import { actors } from "./engine.js"
+import { actors, manageGame } from "./engine.js"
 
 const overlay = document.body.querySelector('#overlay')
 const menu = document.body.querySelector('#menu')
@@ -113,10 +113,12 @@ window.addEventListener('blur', function () {
     }
 });
 
+import {allowMenuOpen} from './engine.js'
+
 // menu open/close
 document.addEventListener('keydown', debounce((e) => {
     if (document.getElementById("start-menu").classList.contains("hidden")) {
-        if (e.key === 'Escape') {
+        if (e.key === 'Escape' && allowMenuOpen) {
             if (menu.classList.contains('hidden')) {
                 pauseGame();
             } else {
@@ -166,6 +168,7 @@ function restartGame() {
     closeMenu()
     clearScore()
     timer.resetTimer()
+    manageGame()
 }
 
 export function clearScore() {

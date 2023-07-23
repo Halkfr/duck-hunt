@@ -69,6 +69,8 @@ export function isGameOver() {
     return bool
 }
 
+export let allowMenuOpen = true
+
 function gameOver() {
     let gameOverElement = document.createElement("div")
     gameOverElement.id = "game-over"
@@ -78,6 +80,7 @@ function gameOver() {
 
     document.getElementById("round-text").classList.add("hidden")
 
+    allowMenuOpen = false
 }
 
 import { clearScore } from './menu.js'
@@ -118,6 +121,7 @@ export async function manageGame() {
     fillInterfaceElements()
     deleteActors()
     timer.resetTimer()
+    allowMenuOpen = true
 
     while (ducksReleased <= 10 && !isGameOver()) {
 
