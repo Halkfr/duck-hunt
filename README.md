@@ -8,7 +8,7 @@
 
 This game got basic mechanics and some sprites from the original Duck Hunt published by Nintendo.
 
-The game made for educational purposes only.
+The game is made for educational purposes only.
 
   
 
@@ -42,15 +42,11 @@ To run the game on local machine:
 
 - No canvas used
 
+- Aside from classic game mode we plan to add bonus game mode, which is in development
+
 ### TODO: 
 1. Change speed of the duck according to screen size (PC/mobile)? Make hitbox bigger?
 2. Improve Duck generateAim function
-3. Add top score to cookies
-4. Timer works correctly if window lost focus and continue is pressed
 5. Create hunter escape animation
 6. Create shooting animation or maybe create bullets timeout
 7. Refactor timer (we have two in actors.js and in menu.js)
-
-### FIX:
-1. Game could pause on a screen shot
-2. Fix resize (actors drop images after screen resize)
