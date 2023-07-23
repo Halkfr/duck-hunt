@@ -330,14 +330,13 @@ function deleteActors() {
 }
 
 onresize = () => {
-    // console.log('resize')
     let props = countProps()
     console.log(props)
     for (let i = 0; i < actors.length; i++) {
-        if (actors[i].constructor == "Duck") {
+        // if (actors[i].constructor == "Duck") {
             actors[i].resize(props.duck.moveArea, props.duck.width, props.duck.top)
-        } else {
-            actors[i].resize(props.hunter.moveArea, props.hunter.width, props.hunter.top)
-        }
+        // } else {
+        //     actors[i].resize(props.hunter.moveArea, props.hunter.width, props.hunter.top)
+        // }
     }
 };
