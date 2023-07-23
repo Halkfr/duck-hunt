@@ -4,8 +4,6 @@
 
 ## Description
 
-  
-
 This game got basic mechanics and some sprites from the original Duck Hunt published by Nintendo.
 
 The game is made for educational purposes only.
@@ -13,8 +11,6 @@ The game is made for educational purposes only.
   
 
 ## Authors
-
-  
 
 Orel Margarita @maggieeagle
 
@@ -35,6 +31,7 @@ To run the game on local machine:
 - Or use [LiveServer](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension for VSCode
   
 
+
 ## Implementation details
 
 - Developed with JS
@@ -42,6 +39,8 @@ To run the game on local machine:
 - No canvas used
 
 - Aside from classic game mode we plan to add bonus game mode, which is in development
+
+
 
 ### TODO: 
 1. Change speed of the duck according to screen size (PC/mobile)? Make hitbox bigger?
