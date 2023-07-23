@@ -30,10 +30,9 @@ To run the game on local machine:
 
 - Run Python server with a command `python3 -m http.server 8000`
 
-- Or use [LiveServer](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension for VSCode
-
 - Open [http://localhost:8080/](http://localhost:8000/) in browser
 
+- Or use [LiveServer](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension for VSCode
   
 
 ## Implementation details
