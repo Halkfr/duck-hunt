@@ -81,6 +81,8 @@ function gameOver() {
     document.getElementById("round-text").classList.add("hidden")
 
     allowMenuOpen = false
+    const score = Number(document.getElementById('score-number').innerText)
+    topScore = score > topScore ? score : topScore
 }
 
 import { clearScore } from './menu.js'
@@ -93,6 +95,7 @@ export function loadDefaultGame() {
     document.getElementById("round-text").classList.remove("hidden")
     document.getElementById("round-text").innerText = 1
     document.getElementById('start-menu').classList.remove("hidden")
+    document.getElementById('top-score-number').innerText = topScore
 
     manageGame()
     timer.pauseTimer()
@@ -115,6 +118,7 @@ const countProps = () => {
 import { Duck, Hunter } from '/actors.js'
 
 export let actors = []
+let topScore = 0
 
 export async function manageGame() {
     let ducksReleased = 0, ducksBatchSize = 0
